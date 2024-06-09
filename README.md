@@ -1,4 +1,4 @@
-# Website
+# web-term
 
 ## About
-This is a website.
+A terminal-like webpage running completely from your browser.
