@@ -17,7 +17,7 @@
 /* HTML */
 
 body {
-    padding: 0 0.1rem;
+    padding: 0 .1rem;
 }
 
 a {
@@ -40,6 +40,10 @@ pre {
 .red    {color: #D33}
 .yellow {color: #EE2}
 
+.hidden {
+    visibility: hidden;
+}
+
 .blinker {
     user-select: none;
     animation: text-blink .8s linear infinite;
@@ -48,6 +52,23 @@ pre {
 
 /* APP */
 
+#app, #term {
+    min-height: 100vh;
+}
+
 #term {
     cursor: text;
+}
+
+#term_prompt {
+    display: flex;
+}
+
+#term_command {
+    flex-shrink: 0;
+}
+
+#term_input {
+    width: 100%;
+    padding-left: .6rem;
 }
