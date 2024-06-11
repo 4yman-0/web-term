@@ -1,5 +1,8 @@
 'use strict';
 
+import App from './app.js';
+import Commands from './commands.js';
+
 const Shell = {
     hist: [""],
     histIndex: 0,
@@ -23,14 +26,14 @@ const Shell = {
     clear (){
         App.term_output.innerHTML = "";
     },
-    echo (text){
-        const echoElem = document.createElement("p");
+    echo (text, pre = false){
+        const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerText = text;
         App.term_output.appendChild(echoElem);
         return echoElem;
     },
-    echoHTML (html){
-        const echoElem = document.createElement("p");
+    echoHTML (html, pre = false){
+        const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerHTML = html;
         App.term_output.appendChild(echoElem);
         return echoElem;
@@ -58,3 +61,5 @@ const Shell = {
         App.term_prompt.classList.remove("hidden");
     }
 };
+
+export default Shell;
