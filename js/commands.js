@@ -1,14 +1,20 @@
 'use strict';
 
+//import App from './app';
+import Shell from './shell.js';
+
 const Commands = new Map();
 
 /*
-    Keys are strings and values are arrays of length 2 with
+    `Commands` is a `Map` where:
+    - Keys are strings.
+    - Values are arrays of length 2 with
     the description and the function respectively.
 
 Commands.set("example", ["example",
     (args) => {
-        Shell.echo("example!\n" + args);
+        Shell.echo("example!");
+        Shell.echo(args);
     }
 ]);
 */
@@ -25,14 +31,48 @@ Commands.set("echo", ["Output some text (no quotes)",
     }
 ]);
 
-Commands.set("help", ["Echo descriptions",
+Commands.set("getinfo", ["Get some info about the browser",
+    () => {
+        const echo = (e) => Shell.echo(e);
+        const nav = navigator;
+
+        // give me permissions
+
+        nav.geolocation.getCurrentPosition(
+            (position) => {
+                const coords = position.coords;
+                echo(`latitude: ${coords.latitude} degrees`);
+                echo(`longitude: ${coords.longitude} degrees`);
+                echo(`altitude: ${coords.altitude} meters`);
+                echo(`accuracy: ${coords.accuracy} meters`);
+            },
+            ()=>{
+                echo("location: unknown");
+            },
+            {
+                enableHighAccuracy: true
+            }
+        );
+
+        echo(`language: ${nav.language}`);
+        echo(`languages: ${nav.languages.join(", ")}`);
+        echo(`multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}`);
+        echo(`platform: ${nav.platform || "unknown"}`);
+        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chrome/safari/other"}`);
+        echo(`userAgent: ${nav.userAgent}`)
+    }
+]);
+
+Commands.set("help", ["show descriptions",
     (args) => {
         if (Commands.has(args[0])) {
             Shell.echo(Commands.get(args[0])[0]);
         } else {
             Commands.forEach((command, name) => {
-                Shell.echo(`${name} - ${command[0]}`);
+                Shell.echo(`${name}\t-\t${command[0]}`, true);
             });
         }
     }
 ]);
+
+export default Commands;
