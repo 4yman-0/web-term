@@ -31,7 +31,12 @@ Commands.set("echo", ["Output some text (no quotes)",
     }
 ]);
 
-Commands.set("getinfo", ["Get some info about the browser",
+Commands.set("exit", ["exit the teminal",
+    () => {
+    }
+]);
+
+Commands.set("info", ["Get some info about the browser",
     () => {
         const echo = (e) => Shell.echo(e);
         const nav = navigator;
@@ -65,13 +70,61 @@ Commands.set("getinfo", ["Get some info about the browser",
 
 Commands.set("help", ["show descriptions",
     (args) => {
-        if (Commands.has(args[0])) {
-            Shell.echo(Commands.get(args[0])[0]);
+        const subject = args[0];
+
+        if (Commands.has(subject)) {
+            Shell.echo(Commands.get(subject)[0]);
         } else {
             Commands.forEach((command, name) => {
                 Shell.echo(`${name}\t-\t${command[0]}`, true);
             });
         }
+    }
+]);
+
+Commands.set("hist", ["show history",
+    (args) => {
+        const operation = args[0];
+
+        switch (operation) {
+            case "list":
+                for (let i = 0; i < Shell.hist.length; i++) {
+                    Shell.echo(Shell.hist[i]);
+                }
+                break;
+            case "clear":
+                Shell.hist = [""];
+                Shell.histIndex = 0;
+                break;
+            default:
+                Shell.echo("Usage: hist OPERATION");
+                Shell.echo("\n")
+                Shell.echo('OPERATION: "list" or "clear"');
+                break;
+        }
+    }
+]);
+
+Commands.set("nav", ["navigate to url",
+    (args) => {
+        const [url, name] = args;
+
+        Shell.echo(`Navigating to ${name || url}...`);
+        location.href = url;
+    }
+]);
+
+Commands.set("repo", ["go to repository",
+    () => {
+        Shell.exec("nav github.com/4yman-el/web-term GitHub");
+    }
+]);
+
+Commands.set("whoami", ["Who am I?",
+    () => {
+        Shell.echo("You are THE USER");
+        Shell.echo("\n");
+        Shell.echo('""', true);
     }
 ]);
 
