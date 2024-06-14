@@ -31,28 +31,61 @@ Commands.set("echo", ["Output some text (no quotes)",
     }
 ]);
 
-Commands.set("getinfo", ["Get some info about the browser",
+Commands.set("exit", ["Exit the terminal",
+    (args) => {
+        let mode = args[0] || "shutdown";
+
+        switch (mode) {
+            case "restart":
+                location.reload();
+                break;
+            case "shutdown":
+                window.close();
+                break;
+            default:
+                const echo = Shell.echo;
+
+                echo("Usage: exit [MODE]");
+                echo();
+                echo('MODE: defaults to "shutdown"');
+                echo('\t"restart": reload the terminal', true);
+                echo('\t"shutdown": close the terminal', true);
+                break;
+        }
+    }
+]);
+
+
+Commands.set("hist", ["Manipulate terminal history",
+    (args) => {
+        let command = args[0] || "list";
+
+        switch (command) {
+            case "list":
+                // List terminal history
+                Shell.hist.forEach((item) => {Shell.echo(item)});
+                break;
+            case "clear":
+                Shell.hist = [""];
+                Shell.histIndex = 0;
+                break;
+            default:
+                const echo = Shell.echo;
+
+                echo("Usage: hist [COMMAND]");
+                echo();
+                echo('COMMAND: defaults to "list"');
+                echo('\t"list": show history', true);
+                echo('\t"clear": remove all history items', true);
+                break;
+        }
+    }
+]);
+
+Commands.set("info", ["Get some info about the browser",
     () => {
         const echo = (e) => Shell.echo(e);
         const nav = navigator;
-
-        // give me permissions
-
-        nav.geolocation.getCurrentPosition(
-            (position) => {
-                const coords = position.coords;
-                echo(`latitude: ${coords.latitude} degrees`);
-                echo(`longitude: ${coords.longitude} degrees`);
-                echo(`altitude: ${coords.altitude} meters`);
-                echo(`accuracy: ${coords.accuracy} meters`);
-            },
-            ()=>{
-                echo("location: unknown");
-            },
-            {
-                enableHighAccuracy: true
-            }
-        );
 
         echo(`language: ${nav.language}`);
         echo(`languages: ${nav.languages.join(", ")}`);
@@ -63,7 +96,7 @@ Commands.set("getinfo", ["Get some info about the browser",
     }
 ]);
 
-Commands.set("help", ["show descriptions",
+Commands.set("help", ["Show descriptions",
     (args) => {
         if (Commands.has(args[0])) {
             Shell.echo(Commands.get(args[0])[0]);
