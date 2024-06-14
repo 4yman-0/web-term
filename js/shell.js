@@ -6,6 +6,7 @@ import Commands from './commands.js';
 const Shell = {
     hist: [""],
     histIndex: 0,
+    histMax: 200,
     histUp (){
         if (Shell.histIndex > 0) {
             Shell.histIndex--;
@@ -21,31 +22,35 @@ const Shell = {
     pushHist (input){
         Shell.hist.pop();
         Shell.hist.push(input, "");
-        Shell.histIndex++;
+        if (Shell.hist.length >= Shell.histMax) {
+            Shell.hist.shift();
+        } else {
+            Shell.histIndex++;
+        }
     },
     clear (){
         App.term_output.innerHTML = "";
     },
-    echo (text, pre = false){
+    echo (text = "\n", pre = false){
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerText = text;
         App.term_output.appendChild(echoElem);
         return echoElem;
     },
-    echoHTML (html, pre = false){
+    echoHTML (html = "", pre = false){
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerHTML = html;
         App.term_output.appendChild(echoElem);
         return echoElem;
     },
     execUserInput (input){
-        Shell.pushHist(input);
-
         // Echo prompt to screen
         Shell.echoHTML(`<span class="green">user@web-term</span>:<span class="blue">~</span>$ ${input}`);
 
         // If input is empty, do nothing
         if (!input) return;
+
+        Shell.pushHist(input);
 
         const [command, ...args] = input.trim().split(" ");
 
