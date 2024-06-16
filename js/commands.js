@@ -3,7 +3,7 @@
 //import App from './app';
 import Shell from './shell.js';
 
-const echo = (m) => Shell.echo(m);
+const echo = (m, pre) => Shell.echo(m, pre);
 
 const Commands = new Map();
 
@@ -48,8 +48,8 @@ Commands.set("exit", ["Exit the terminal",
                 echo("Usage: exit [MODE]");
                 echo();
                 echo('MODE:');
-                echo('\t"restart": reload the terminal', true);
-                echo('\t"shutdown": close the terminal', true);
+                echo('  restart     reload the terminal', true);
+                echo('  shutdown    close the terminal', true);
                 break;
         }
     }
@@ -73,8 +73,8 @@ Commands.set("hist", ["Manipulate terminal history",
                 echo("Usage: hist [COMMAND]");
                 echo();
                 echo('COMMAND:');
-                echo('\t"list": show history', true);
-                echo('\t"clear": remove all history items', true);
+                echo(' "list":     show history', true);
+                echo(' "clear":    remove all history items', true);
                 break;
         }
     }
@@ -100,7 +100,7 @@ Commands.set("help", ["Show descriptions",
             Shell.echo(Commands.get(args[0])[0]);
         } else {
             Commands.forEach((command, name) => {
-                Shell.echo(`${name}\t-\t${command[0]}`, true);
+                Shell.echo(`${ name }\t-\t${ command[0] }`, true);
             });
         }
     }
