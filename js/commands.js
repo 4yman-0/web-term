@@ -73,8 +73,8 @@ Commands.set("hist", ["Manipulate terminal history",
                 echo("Usage: hist [COMMAND]");
                 echo();
                 echo('COMMAND:');
-                echo(' "list":     show history', true);
-                echo(' "clear":    remove all history items', true);
+                echo(' list     show history', true);
+                echo(' clear    remove all history items', true);
                 break;
         }
     }
