@@ -3,6 +3,8 @@
 //import App from './app';
 import Shell from './shell.js';
 
+const echo = (m, pre) => Shell.echo(m, pre);
+
 const Commands = new Map();
 
 /*
@@ -33,7 +35,7 @@ Commands.set("echo", ["Output some text (no quotes)",
 
 Commands.set("exit", ["Exit the terminal",
     (args) => {
-        let mode = args[0] || "shutdown";
+        let mode = args[0] || "help";
 
         switch (mode) {
             case "restart":
@@ -43,13 +45,11 @@ Commands.set("exit", ["Exit the terminal",
                 window.close();
                 break;
             default:
-                const echo = Shell.echo;
-
                 echo("Usage: exit [MODE]");
                 echo();
-                echo('MODE: defaults to "shutdown"');
-                echo('\t"restart": reload the terminal', true);
-                echo('\t"shutdown": close the terminal', true);
+                echo('MODE:');
+                echo('  restart     reload the terminal', true);
+                echo('  shutdown    close the terminal', true);
                 break;
         }
     }
@@ -58,7 +58,7 @@ Commands.set("exit", ["Exit the terminal",
 
 Commands.set("hist", ["Manipulate terminal history",
     (args) => {
-        let command = args[0] || "list";
+        let command = args[0] || "help";
 
         switch (command) {
             case "list":
@@ -70,13 +70,11 @@ Commands.set("hist", ["Manipulate terminal history",
                 Shell.histIndex = 0;
                 break;
             default:
-                const echo = Shell.echo;
-
                 echo("Usage: hist [COMMAND]");
                 echo();
-                echo('COMMAND: defaults to "list"');
-                echo('\t"list": show history', true);
-                echo('\t"clear": remove all history items', true);
+                echo('COMMAND:');
+                echo(' list     show history', true);
+                echo(' clear    remove all history items', true);
                 break;
         }
     }
@@ -102,7 +100,7 @@ Commands.set("help", ["Show descriptions",
             Shell.echo(Commands.get(args[0])[0]);
         } else {
             Commands.forEach((command, name) => {
-                Shell.echo(`${name}\t-\t${command[0]}`, true);
+                Shell.echo(`${ name }\t-\t${ command[0] }`, true);
             });
         }
     }

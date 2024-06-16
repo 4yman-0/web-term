@@ -62,7 +62,7 @@ const Shell = {
 
         Shell.pushHist(input);
 
-        const [command, ...args] = input.trim().split(" ");
+        const command = input.split(" ")[0];
 
         App.term_prompt.classList.add("hidden");
 
