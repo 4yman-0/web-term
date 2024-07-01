@@ -16,8 +16,8 @@ const Commands = new Map();
 
 Commands.set("example", ["example",
     (args) => {
-        Shell.echo("example!");
-        Shell.echo(args);
+        echo("example!");
+        echo(args);
     }
 ]);
 */
