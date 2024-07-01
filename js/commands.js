@@ -2,6 +2,7 @@
 
 //import App from './app';
 import Shell from './shell.js';
+import Config from './config.js'
 
 const echo = (m, pre) => Shell.echo(m, pre);
 
@@ -24,6 +25,12 @@ Commands.set("example", ["example",
 Commands.set("clear", ["Clear the screen",
     () => {
         Shell.clear();
+    }
+]);
+
+Commands.set("config", ["Configure the terminal",
+    () => {
+        echo("Not Implemented");
     }
 ]);
 
