@@ -95,7 +95,7 @@ Commands.set("info", ["Get some info about the browser",
         echo(`languages: ${nav.languages.join(", ")}`);
         echo(`multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}`);
         echo(`platform: ${nav.platform || "unknown"}`);
-        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chrome/safari/other"}`);
+        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}`);
         echo(`userAgent: ${nav.userAgent}`)
     }
 ]);
