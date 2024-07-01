@@ -36,7 +36,7 @@ Commands.set("config", ["Configure the terminal",
 
 Commands.set("echo", ["Output some text (no quotes)",
     (args) => {
-        Shell.echo(args.join(" "));
+        echo(args.join(" "));
     }
 ]);
 
@@ -70,7 +70,7 @@ Commands.set("hist", ["Manipulate terminal history",
         switch (command) {
             case "list":
                 // List terminal history
-                Shell.hist.forEach((item) => {Shell.echo(item)});
+                Shell.hist.forEach((item) => {echo(item)});
                 break;
             case "clear":
                 Shell.hist = [""];
@@ -89,7 +89,6 @@ Commands.set("hist", ["Manipulate terminal history",
 
 Commands.set("info", ["Get some info about the browser",
     () => {
-        const echo = (e) => Shell.echo(e);
         const nav = navigator;
 
         echo(`language: ${nav.language}`);
@@ -104,10 +103,10 @@ Commands.set("info", ["Get some info about the browser",
 Commands.set("help", ["Show descriptions",
     (args) => {
         if (Commands.has(args[0])) {
-            Shell.echo(Commands.get(args[0])[0]);
+            echo(Commands.get(args[0])[0]);
         } else {
             Commands.forEach((command, name) => {
-                Shell.echo(`${ name }\t-\t${ command[0] }`, true);
+                echo(`${ name }\t-\t${ command[0] }`, true);
             });
         }
     }
