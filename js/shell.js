@@ -10,13 +10,13 @@ const Shell = {
     histUp (){
         if (Shell.histIndex > 0) {
             Shell.histIndex--;
-            App.term_input.value = Shell.hist[Shell.histIndex];
+            App.termInput.value = Shell.hist[Shell.histIndex];
         }
     },
     histDown (){
         if (Shell.histIndex < Shell.hist.length - 1) {
             Shell.histIndex++;
-            App.term_input.value = Shell.hist[Shell.histIndex];
+            App.termInput.value = Shell.hist[Shell.histIndex];
         }
     },
     pushHist (input){
@@ -29,18 +29,18 @@ const Shell = {
         }
     },
     clear (){
-        App.term_output.innerHTML = "";
+        App.termOutput.innerHTML = "";
     },
     echo (text = "\n", pre = false){
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.textContent = text;
-        App.term_output.appendChild(echoElem);
+        App.termOutput.appendChild(echoElem);
         return echoElem;
     },
     echoHTML (html = "", pre = false){
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerHTML = html;
-        App.term_output.appendChild(echoElem);
+        App.termOutput.appendChild(echoElem);
         return echoElem;
     },
     exec (input){
@@ -55,7 +55,7 @@ const Shell = {
     },
     execUserInput (input){
         // Echo prompt to screen
-        Shell.echoHTML(`<span class="green">user@web-term</span>:<span class="blue">~</span>$ ${input}`);
+        Shell.echoHTML(`${App.termCommand.innerHTML} ${input}`);
 
         // If input is empty, do nothing
         if (!input) return;
@@ -64,13 +64,13 @@ const Shell = {
 
         const command = input.split(" ")[0];
 
-        App.term_prompt.classList.add("hidden");
+        App.termPrompt.classList.add("hidden");
 
         if (Shell.exec(input) === null) {
             Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
-        App.term_prompt.classList.remove("hidden");
+        App.termPrompt.classList.remove("hidden");
     }
 };
 
