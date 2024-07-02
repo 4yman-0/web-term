@@ -50,12 +50,12 @@ const Shell = {
     },
     echoMultiline (multilineText, pre){
         // Split line breaks
-        const textArray = multilineText.split("\n");
+        const textArray = multilineText.trim().split("\n");
 
         textArray.forEach((line) => {this.echo(line, pre)});
     },
     echoMultilineHTML (multilineHTML, pre){
-        const htmlArray = multilineHTML.split("\n");
+        const htmlArray = multilineHTML.trim().split("\n");
 
         htmlArray.forEach((line) => {this.echoHTML(line, pre)});
     },
@@ -85,7 +85,7 @@ const Shell = {
         if (Shell.exec(input) === null) {
             Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
-        
+
         App.termPrompt.classList.remove("hidden");
     }
 };
