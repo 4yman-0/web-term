@@ -1,5 +1,6 @@
 'use strict';
 
+import Config from './config.js'
 import Shell from "./shell.js";
 
 const App = {
@@ -10,6 +11,9 @@ const App = {
         this.termPrompt = document.getElementById("term_prompt");
         this.termCommand = document.getElementById("term_command");
         this.termInput = document.getElementById("term_input");
+
+        // Update config
+        Config.updateConfig();
 
         // Reset input value to prevent refill
         this.termInput.value = "";
