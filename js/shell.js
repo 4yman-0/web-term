@@ -7,6 +7,7 @@ const Shell = {
     hist: [""],
     histIndex: 0,
     histMax: 200,
+
     histUp (){
         if (Shell.histIndex > 0) {
             Shell.histIndex--;
