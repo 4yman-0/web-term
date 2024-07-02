@@ -74,7 +74,7 @@ NAME:
     }
 ]);
 
-Commands.set("echo", ["Output some text (no quotes)",
+Commands.set("echo", ["Output text (no quotes)",
     (args) => {
         echo(args.join(" "));
     }
@@ -132,7 +132,7 @@ MODE:
     }
 ]);
 
-Commands.set("info", ["Get some info about the browser",
+Commands.set("info", ["Get info about the browser",
     () => {
         const nav = navigator;
 
