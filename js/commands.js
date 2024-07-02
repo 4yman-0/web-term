@@ -92,7 +92,6 @@ Commands.set("exit", ["Exit the terminal",
                 window.close();
                 break;
             default:
-// not sure how to deal with this
 Shell.echoMultiline(`
 Usage: exit [COMMAND]
 
