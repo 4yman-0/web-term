@@ -52,11 +52,14 @@ Commands.set("exit", ["Exit the terminal",
                 window.close();
                 break;
             default:
-                echo("Usage: exit [MODE]");
-                echo();
-                echo('MODE:');
-                echo('  restart     reload the terminal', true);
-                echo('  shutdown    close the terminal', true);
+// not sure how to deal with this
+Shell.echoMultiline(`
+Usage: exit [COMMAND]
+
+COMMAND:
+  restart     reload the terminal
+  shutdown    close the terminal
+`, true);
                 break;
         }
     }
@@ -77,11 +80,13 @@ Commands.set("hist", ["Manipulate terminal history",
                 Shell.histIndex = 0;
                 break;
             default:
-                echo("Usage: hist [COMMAND]");
-                echo();
-                echo('COMMAND:');
-                echo(' list     show history', true);
-                echo(' clear    remove all history items', true);
+Shell.echoMultiline(`
+Usage: hist [COMMAND]
+
+MODE:
+  list        show history
+  clear       remove all history items
+`, true);
                 break;
         }
     }
@@ -91,12 +96,14 @@ Commands.set("info", ["Get some info about the browser",
     () => {
         const nav = navigator;
 
-        echo(`language: ${nav.language}`);
-        echo(`languages: ${nav.languages.join(", ")}`);
-        echo(`multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}`);
-        echo(`platform: ${nav.platform || "unknown"}`);
-        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}`);
-        echo(`userAgent: ${nav.userAgent}`)
+Shell.echoMultiline(`
+language:   ${nav.language}
+languages:  ${nav.languages.join(", ")}
+multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}
+platform:   ${nav.platform || "unknown"}
+productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}
+userAgent:  ${nav.userAgent}
+`);
     }
 ]);
 
