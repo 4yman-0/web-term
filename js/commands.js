@@ -118,6 +118,12 @@ Commands.set("hist", ["Manipulate terminal history",
                 Shell.hist = [""];
                 Shell.histIndex = 0;
                 break;
+            case "on":
+                Shell.histOn=true;
+                break;
+            case "off":
+                Shell.histOn=false;
+                break;
             default:
 Shell.echoMultiline(`
 Usage: hist [COMMAND]
@@ -125,6 +131,8 @@ Usage: hist [COMMAND]
 MODE:
   list        show history
   clear       remove all history items
+  on          enable history
+  off         disable history
 `, true);
                 break;
         }

@@ -7,6 +7,7 @@ const Shell = {
     hist: [""],
     histIndex: 0,
     histMax: 200,
+    histOn: true,
 
     histUp (){
         if (Shell.histIndex > 0) {
@@ -75,7 +76,9 @@ const Shell = {
 
         if (!input) return;
 
-        Shell.pushHist(input);
+        if (Shell.histOn) {
+            Shell.pushHist(input);
+        }
 
         const command = input.split(" ")[0];
 
