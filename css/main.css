@@ -1,21 +1,3 @@
-/* CSS */
-
-
-/* ANIMATIONS */
-
-@keyframes text-blink {
-    0%, 49% {
-        color: #FFF;
-    }
-
-    50%, 100% {
-        color: transparent;
-    }
-}
-
-
-/* HTML */
-
 body {
     padding: 0 .1rem;
 }
@@ -44,11 +26,6 @@ pre {
     visibility: hidden;
 }
 
-.blinker {
-    user-select: none;
-    animation: text-blink .8s linear infinite;
-}
-
 
 /* APP */
 
@@ -70,5 +47,5 @@ pre {
 
 #term_input {
     width: 100%;
-    padding-left: .55rem;
+    padding-left: .5rem;
 }
