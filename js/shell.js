@@ -13,12 +13,18 @@ const Shell = {
         if (Shell.histIndex > 0) {
             Shell.histIndex--;
             App.termInput.value = Shell.hist[Shell.histIndex];
+
+            // move I-beam to end of input
+            // Does not work on FF 127
+            App.termInput.setSelectionRange(-1, -1);
         }
     },
     histDown (){
         if (Shell.histIndex < Shell.hist.length - 1) {
             Shell.histIndex++;
             App.termInput.value = Shell.hist[Shell.histIndex];
+
+            App.termInput.setSelectionRange(-1, -1);
         }
     },
     pushHist (input){
