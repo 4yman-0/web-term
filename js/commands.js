@@ -32,11 +32,9 @@ Commands.set("config", ["Configure the terminal",
     (args) => {
         const [command, name] = args;
 
-        const configHasName = (name && Config.hasOwnProperty(name));
-
         switch (command) {
             case "get":
-                if (configHasName) {
+                if (Config.validConfig.includes(name)) {
                     echo(Config[name]);
                 }
                 break;
@@ -44,16 +42,21 @@ Commands.set("config", ["Configure the terminal",
                 // Prevent string "undefined"
                 const value = args[2] || "";
 
-                const propertyIsFuncOrObj = 
-                (typeof Config[name] == "function") ||
-                (typeof Config[name] == "object");
-
-                if (configHasName && !propertyIsFuncOrObj) {
-                    Config[name] = value;
-                } else {
-                    Shell.echoHTML(
-                        `<span class="red">property ${name} does not exist</span>`
-                    );
+                switch (name) {
+                    case "username":
+                        Config.setUsername(value);
+                        break;
+                    case "hostname":
+                        Config.setHostname(value);
+                        break;
+                    case "workingDir":
+                        Config.setWorkingDir(value);
+                        break;
+                    default:
+                        Shell.echoHTML(
+                            `<span class="red">config ${name} does not exist</span>`
+                        );
+                        break;
                 }
                 break;
             default:
@@ -63,9 +66,9 @@ Usage: config [COMMAND] [NAME]
 
 COMMAND: get or set
 NAME:
-  username
-  hostname
-  workingDir
+${
+    "  " + Config.validConfig.join("\n  ")
+}
 `, true);
                 break;
         }
