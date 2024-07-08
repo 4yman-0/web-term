@@ -1,20 +1,14 @@
 /* CSS */
 
-
-/* ANIMATIONS */
-
-@keyframes text-blink {
+@keyframes bg-blink {
     0%, 49% {
-        color: #FFF;
+        background: #FFF;
     }
 
     50%, 100% {
-        color: transparent;
+        background: transparent;
     }
 }
-
-
-/* HTML */
 
 body {
     padding: 0 .1rem;
@@ -44,11 +38,6 @@ pre {
     visibility: hidden;
 }
 
-.blinker {
-    user-select: none;
-    animation: text-blink .8s linear infinite;
-}
-
 
 /* APP */
 
@@ -62,6 +51,7 @@ pre {
 
 #term_prompt {
     display: flex;
+    height: 1rem;
 }
 
 #term_command {
@@ -69,6 +59,21 @@ pre {
 }
 
 #term_input {
-    width: 100%;
-    padding-left: .55rem;
+    display: block;
+    width: 0;
+    height: 0;
+    outline: none;
+    border: none;
+}
+
+#term_input_display {
+    max-width: 100%;
+    padding-left: calc( .5rem + 1px );
+}
+
+#term_input_blink.blink-active {
+    display: inline;
+    width: .5rem;
+    position: relative;
+    animation: bg-blink infinite linear 1s;
 }

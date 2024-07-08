@@ -15,17 +15,8 @@
     body {
         background: #000;
         color: #fff;
-
         font-family: monospace;
-    }
-
-    input {
-        border: none;
-        outline: none;
-        background: none;
-        color: #fff;
-        font-family: monospace;
-        font-size: .9rem;
+        font-size: medium;
     }
     </style>
 
@@ -35,18 +26,23 @@
 <body>
     <main id="app">
         <div id="term">
+            <input id="term_input"
+             autocomplete="off"
+             autofocus
+             tabindex="0"
+             type="text">
+            </input>
             <div id="term_output">
                 <noscript><p class="red">No JavaScript?</p></noscript>
                 <p>Welcome to <strong>WEB-TERM</strong></p>
             </div>
-            <p id="term_prompt">
+            <div id="term_prompt">
                 <span id="term_command">
                     <span class="green">user@web-term</span>:<span class="blue">~</span>$ 
                 </span>
-                <input id="term_input"
-                 type="text"
-                 autocomplete="none">
-            </p>
+                <div id="term_input_display"></div>
+                <span id="term_input_blink"> </span>
+            </div>
         </div>
     </main>
 
