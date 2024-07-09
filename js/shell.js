@@ -78,7 +78,7 @@ const Shell = {
     },
     execUserInput (input){
         // Echo prompt to screen
-        Shell.echoHTML(`${App.termCommand.innerHTML} ${input}`);
+        Shell.echoHTML(`${App.termPS1.innerHTML} ${input}`);
 
         if (!input) return;
 
