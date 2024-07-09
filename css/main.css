@@ -60,7 +60,7 @@ pre {
 }
 
 .term__input-display {
-    max-width: 100%;
+    max-width: 100vw;
     white-space: pre;
 }
 
