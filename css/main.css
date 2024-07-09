@@ -1,15 +1,5 @@
 /* CSS */
 
-@keyframes bg-blink {
-    5%, 45% {
-        background: #FFF;
-    }
-
-    55%, 95% {
-        background: transparent;
-    }
-}
-
 a {
     color: #3FF;
 }
@@ -37,6 +27,12 @@ pre {
 
 /* APP */
 
+::selection,
+::-moz-selection {
+    color: #000;
+    background: #FFF;
+}
+
 .app {
     padding: 0 .1rem;
 }
@@ -51,8 +47,8 @@ pre {
 }
 
 .term__ps1 {
-    white-space: pre;
     flex-shrink: 0;
+    white-space: pre;
 }
 
 .term__input-hidden {
@@ -65,11 +61,13 @@ pre {
 
 .term__input-display {
     max-width: 100%;
+    white-space: pre;
 }
 
 .term__input-blink.blink-active {
     display: inline;
+    position: relative;
     width: .5rem;
     position: relative;
-    animation: bg-blink infinite linear 1s;
+    background: #FFF;
 }
