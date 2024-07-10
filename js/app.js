@@ -35,22 +35,20 @@ const App = {
                 this.termInput.value = "";
                 this.termInputDisplay.textContent = "";
                 break;
-            case "ArrowUp":
-                Shell.histUp();
-                this.updateInput();
-                this.updateCursor();
-                break;
-            case "ArrowDown":
-                Shell.histDown();
-                this.updateInput();
-                this.updateCursor();
-                break;
-            case "ArrowLeft":
-                this.updateCursor(-1);
-                break;
-            case "ArrowRight":
-                this.updateCursor(1);
-                break;
+                case "ArrowUp":
+                    Shell.histUp();
+                    this.updateInput();
+                    break;
+                case "ArrowDown":
+                    Shell.histDown();
+                    this.updateInput();
+                    break;
+                case "ArrowLeft":
+                    this.updateCursor(-1);
+                    break;
+                case "ArrowRight":
+                    this.updateCursor(1);
+                    break;
             default:
                 break;
         }
