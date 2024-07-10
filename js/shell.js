@@ -15,8 +15,7 @@ const Shell = {
             App.termInput.value = Shell.hist[Shell.histIndex];
 
             // move I-beam to end of input
-            // Does not work on FF 127
-            App.termInput.setSelectionRange(-1, -1);
+            // Already done by browser
         }
     },
     histDown (){
@@ -24,7 +23,11 @@ const Shell = {
             Shell.histIndex++;
             App.termInput.value = Shell.hist[Shell.histIndex];
 
-            App.termInput.setSelectionRange(-1, -1);
+            // move I-beam to end of input
+            App.termInput.setSelectionRange(
+                App.termInput.value.length,
+                App.termInput.value.length
+            );
         }
     },
     pushHist (input){
@@ -78,7 +81,7 @@ const Shell = {
     },
     execUserInput (input){
         // Echo prompt to screen
-        Shell.echoHTML(`${App.termCommand.innerHTML} ${input}`);
+        Shell.echoHTML(`${App.termPS1.innerHTML} ${input}`);
 
         if (!input) return;
 

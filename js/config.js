@@ -49,7 +49,7 @@ const Config = {
     },    
 
     updateConfig (){
-        App.termCommand.innerHTML = `<span class="green">${this.username}@${this.hostname}</span>:<span class="blue">${this.workingDir}</span>$ `;
+        App.termPS1.innerHTML = `<span class="green">${this.username}@${this.hostname}</span>:<span class="blue">${this.workingDir}</span>$ `;
     }
 };
 
