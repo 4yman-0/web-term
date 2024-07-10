@@ -44,7 +44,6 @@ pre {
 
 .term__prompt {
     display: flex;
-    width: 100%;
 }
 
 .term__ps1 {
@@ -61,12 +60,12 @@ pre {
 }
 
 .term__input-display {
+    max-width: 100vw;
     white-space: pre;
 }
 
 .term__input-blink.blink-active {
     display: inline;
-    flex-shrink: 0;
     width: 1ch;
     position: relative;
     background: #FFF9;
