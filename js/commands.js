@@ -62,11 +62,9 @@ Commands.set("config", ["Configure the terminal",
             default:
 // not sure how to deal with this
 Shell.echoMultiline(`
-Usage: config [COMMAND] [NAME] [VALUE]
+Usage: config [COMMAND] [NAME]
 
-COMMAND:
-  get
-  set
+COMMAND: get or set
 NAME:
 ${
     "  " + Config.validConfig.join("\n  ")
@@ -133,7 +131,7 @@ Commands.set("hist", ["Manipulate terminal history",
 Shell.echoMultiline(`
 Usage: hist [COMMAND]
 
-COMMAND:
+MODE:
   list        show history
   clear       remove all history items
   on          enable history

@@ -40,12 +40,12 @@ const App = {
             case "ArrowUp":
                 Shell.histUp();
                 this.updateInput();
-                this.updateCursor("begin");
+                this.updateCursor();
                 break;
             case "ArrowDown":
                 Shell.histDown();
                 this.updateInput();
-                this.updateCursor("end");
+                this.updateCursor();
                 break;
             case "ArrowLeft":
                 this.updateCursor(-1);
@@ -72,15 +72,7 @@ const App = {
     },
     updateCursor (offset = 0){
         const inputLength = this.termInput.value.length;
-        let inputCaret = this.termInput.selectionStart;
-
-        if (offset == "begin") {
-            inputCaret = 0;
-        } else if (offset == "end") {
-            inputCaret = inputLength;
-        } else if (typeof offset === "number") {
-            inputCaret += offset;
-        } else return null;
+        let inputCaret = this.termInput.selectionStart + offset;
 
         // check if offset is out-of-bound
         if (inputCaret === -1 || inputCaret > inputLength) inputCaret -= offset;
@@ -89,24 +81,6 @@ const App = {
 
         this.termInputBlink
             .style.right = `${caretRight}ch`;
-
-        if (inputCaret !== this.termInput.selectionEnd) {
-            this.termInputBlink
-                .style.width = `${
-                    Math.max(
-                        inputCaret,
-                        this.termInput.selectionEnd
-                    )
-                    -
-                    Math.min(
-                        inputCaret,
-                        this.termInput.selectionEnd
-                    )
-                }ch`;
-        } else {
-            this.termInputBlink
-                .style.width = "1ch";
-        }
     }
 };
 
