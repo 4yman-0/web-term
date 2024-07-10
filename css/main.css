@@ -66,8 +66,7 @@ pre {
 
 .term__input-blink.blink-active {
     display: inline;
+    width: 1ch;
     position: relative;
-    width: .5rem;
-    position: relative;
-    background: #FFF;
+    background: #FFF9;
 }
