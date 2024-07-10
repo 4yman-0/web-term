@@ -1,13 +1,17 @@
 /* CSS */
 
 @keyframes bg-blink {
-    5%, 45% {
+    0%, 49% {
         background: #FFF;
     }
 
-    55%, 95% {
+    50%, 100% {
         background: transparent;
     }
+}
+
+body {
+    padding: 0 .1rem;
 }
 
 a {
@@ -37,25 +41,24 @@ pre {
 
 /* APP */
 
-.app {
-    padding: 0 .1rem;
+#app, #term {
+    min-height: 100vh;
 }
 
-.term {
-    min-height: 100vh;
+#term {
     cursor: text;
 }
 
-.term__prompt {
+#term_prompt {
     display: flex;
+    height: 1rem;
 }
 
-.term__ps1 {
-    white-space: pre;
+#term_command {
     flex-shrink: 0;
 }
 
-.term__input-hidden {
+#term_input {
     display: block;
     width: 0;
     height: 0;
@@ -63,11 +66,12 @@ pre {
     border: none;
 }
 
-.term__input-display {
+#term_input_display {
     max-width: 100%;
+    padding-left: calc( .5rem + 1px );
 }
 
-.term__input-blink.blink-active {
+#term_input_blink.blink-active {
     display: inline;
     width: .5rem;
     position: relative;

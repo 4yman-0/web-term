@@ -7,12 +7,12 @@ const App = {
     init () {
         // Get elements
         this.term = document.getElementById("term");
-        this.termOutput = document.getElementById("term-output");
-        this.termPrompt = document.getElementById("term-prompt");
-        this.termPS1 = document.getElementById("term-ps1");
-        this.termInput = document.getElementById("term-input-hidden");
-        this.termInputDisplay = document.getElementById("term-input-display");
-        this.termInputBlink = document.getElementById("term-input-blink");
+        this.termOutput = document.getElementById("term_output");
+        this.termPrompt = document.getElementById("term_prompt");
+        this.termCommand = document.getElementById("term_command");
+        this.termInput = document.getElementById("term_input");
+        this.termInputDisplay = document.getElementById("term_input_display");
+        this.termInputBlink = document.getElementById("term_input_blink");
 
         // Update config
         Config.updateConfig();

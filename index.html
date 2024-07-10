@@ -12,12 +12,11 @@
     <title>Web Terminal</title>
 
     <style>
-    /* Minimal style before CSS files load */
     body {
         background: #000;
         color: #fff;
-        font-family: 'Roboto Mono', monospace;
-        font-size: 1rem;
+        font-family: monospace;
+        font-size: medium;
     }
     </style>
 
@@ -25,27 +24,26 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <main class="app">
-        <section class="term" id="term">
-            <input class="term__input-hidden"
-             id="term-input-hidden"
+    <main id="app">
+        <div id="term">
+            <input id="term_input"
              autocomplete="off"
              autofocus
              tabindex="0"
              type="text">
             </input>
-            <div class="term__output" id="term-output">
+            <div id="term_output">
                 <noscript><p class="red">No JavaScript?</p></noscript>
                 <p>Welcome to <strong>WEB-TERM</strong></p>
             </div>
-            <div class="term__prompt" id="term-prompt">
-                <span class="term__ps1" id="term-ps1">
+            <div id="term_prompt">
+                <span id="term_command">
                     <span class="green">user@web-term</span>:<span class="blue">~</span>$ 
                 </span>
-                <div class="term__input-display" id="term-input-display"></div>
-                <span class="term__input-blink" id="term-input-blink"> </span>
+                <div id="term_input_display"></div>
+                <span id="term_input_blink"> </span>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="js/app.js" defer type="module"></script>
