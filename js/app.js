@@ -23,8 +23,7 @@ const App = {
         // Add event listener
         this.termPrompt.addEventListener("click", this.focusInput.bind(this));
         this.termInput.addEventListener("keydown", this.handleInput.bind(this));
-        this.termInput.addEventListener("input", this.updateInput.bind(this));
-        this.termInput.addEventListener("input", this.updateCursor.bind(this, 0));
+        this.termInput.addEventListener("input", this.displayInput.bind(this));
         this.termInput.addEventListener("focus", this.focusInput.bind(this));
         this.termInput.addEventListener("blur", this.blurInput.bind(this));
     },
@@ -35,48 +34,29 @@ const App = {
                 this.termInput.value = "";
                 this.termInputDisplay.textContent = "";
                 break;
-                case "ArrowUp":
-                    Shell.histUp();
-                    this.updateInput();
-                    break;
-                case "ArrowDown":
-                    Shell.histDown();
-                    this.updateInput();
-                    break;
-                case "ArrowLeft":
-                    this.updateCursor(-1);
-                    break;
-                case "ArrowRight":
-                    this.updateCursor(1);
-                    break;
+            case "ArrowUp":
+                Shell.histUp();
+                break;
+            case "ArrowDown":
+                Shell.histDown();
+                break;
             default:
                 break;
         }
     },
-    updateInput() {
+    displayInput() {
         this.termInputDisplay.textContent = this.termInput.value;
     },
+    focusInput (evt){
+        evt.preventDefault();
+        this.termInput.focus();
+    },
     focusInput() {
-        // Check nothing is selected
-        if(getSelection().toString().length === 0) {
-            this.termInputBlink.classList.add('blink-active');
-            this.termInput.focus();
-        }
+        this.termInputBlink.classList.add('blink-active');
+        this.termInput.focus();
     },
     blurInput() {
         this.termInputBlink.classList.remove('blink-active');
-    },
-    updateCursor (offset = 0){
-        const inputLength = this.termInput.value.length;
-        let inputCaret = this.termInput.selectionStart + offset;
-
-        // check if offset is out-of-bound
-        if (inputCaret === -1 || inputCaret > inputLength) inputCaret -= offset;
-        
-        const caretRight = inputLength - inputCaret;
-
-        this.termInputBlink
-            .style.right = `${caretRight}ch`;
     }
 };
 

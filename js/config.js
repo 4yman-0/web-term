@@ -28,7 +28,7 @@ const Config = {
     setHostname(val){
         if (typeof val !== "string") return;
 
-        const hostnameRegex = /^([a-zA-Z0-9]{1,63}.)+$/;
+        const hostnameRegex = /^([a-zA-Z0-9]{1,63}.)+$/
 
         if (hostnameRegex.test(val)) {
             this.hostname = val;
@@ -39,7 +39,7 @@ const Config = {
     setWorkingDir(val){
         if (typeof val !== "string") return;
 
-        const workingDirRegex = /^[/~](?:[^/\0]+\/?)*$/;
+        const workingDirRegex = /^[/~]\0+$/
 
         if (workingDirRegex.test(val)) {
             this.workingDir = val;
