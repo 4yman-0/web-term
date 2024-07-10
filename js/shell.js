@@ -24,7 +24,7 @@ const Shell = {
         if (Shell.histIndex < Shell.hist.length - 1) {
             Shell.histIndex++;
             App.termInput.value = Shell.hist[Shell.histIndex];
-
+            
             App.termInput.setSelectionRange(
                 App.termInput.value.length,
                 App.termInput.value.length
@@ -60,14 +60,15 @@ const Shell = {
         return echoElem;
     },
     echoMultiline (multilineText, pre){
-        multilineText.trim()
-                     .split("\n")
-                     .forEach((line) => {this.echo(line, pre)});
+        // Split line breaks
+        const textArray = multilineText.trim().split("\n");
+
+        textArray.forEach((line) => {this.echo(line, pre)});
     },
     echoMultilineHTML (multilineHTML, pre){
-        multilineHTML.trim()
-                     .split("\n")
-                     .forEach((line) => {this.echoHTML(line, pre)});
+        const htmlArray = multilineHTML.trim().split("\n");
+
+        htmlArray.forEach((line) => {this.echoHTML(line, pre)});
     },
     exec (input){
         const [command, ...args] = input.trim().split(" ");
@@ -82,17 +83,20 @@ const Shell = {
     execUserInput (input){
         // Echo prompt to screen
         Shell.echoHTML(`${App.termPS1.innerHTML} ${input}`);
+
         if (!input) return;
 
         if (Shell.histOn) {
             Shell.pushHist(input);
         }
 
+        const command = input.split(" ")[0];
+
         App.termPrompt.classList.add("hidden");
 
         // Execute, if null is returned, throw error
         if (Shell.exec(input) === null) {
-            Shell.echoHTML(`<span class="red">${input.split(" ")[0]}: command not found</span>`);
+            Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
         App.termPrompt.classList.remove("hidden");

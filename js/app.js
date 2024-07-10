@@ -3,18 +3,16 @@
 import Config from './config.js'
 import Shell from "./shell.js";
 
-const _$ = (id) => document.getElementById(id);
-
 const App = {
-    async init () {
+    init () {
         // Get elements
-        this.term = _$("term");
-        this.termOutput = _$("term-output");
-        this.termPrompt = _$("term-prompt");
-        this.termPS1 = _$("term-ps1");
-        this.termInput = _$("term-input-hidden");
-        this.termInputDisplay = _$("term-input-display");
-        this.termInputBlink = _$("term-input-blink");
+        this.term = document.getElementById("term");
+        this.termOutput = document.getElementById("term-output");
+        this.termPrompt = document.getElementById("term-prompt");
+        this.termPS1 = document.getElementById("term-ps1");
+        this.termInput = document.getElementById("term-input-hidden");
+        this.termInputDisplay = document.getElementById("term-input-display");
+        this.termInputBlink = document.getElementById("term-input-blink");
 
         // Update config
         Config.updateConfig();
