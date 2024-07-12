@@ -46,7 +46,7 @@ Commands.set("config", ["Configure the terminal",
 
                 if (Config.validConfig.includes(name)) {
                     // Hack, calls "set" + name
-                    Config["set" + name]();
+                    Config["set" + name](value);
                 } else {
                     Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
                 }
