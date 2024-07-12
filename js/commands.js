@@ -36,27 +36,19 @@ Commands.set("config", ["Configure the terminal",
             case "get":
                 if (Config.validConfig.includes(name)) {
                     echo(Config[name]);
+                } else {
+                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
                 }
                 break;
             case "set":
                 // Prevent string "undefined"
                 const value = args[2] || "";
 
-                switch (name) {
-                    case "username":
-                        Config.setUsername(value);
-                        break;
-                    case "hostname":
-                        Config.setHostname(value);
-                        break;
-                    case "workingDir":
-                        Config.setWorkingDir(value);
-                        break;
-                    default:
-                        Shell.echoHTML(
-                            `<span class="red">config ${name} does not exist</span>`
-                        );
-                        break;
+                if (Config.validConfig.includes(name)) {
+                    // Hack, calls "set" + name
+                    Config["set" + name](value);
+                } else {
+                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
                 }
                 break;
             default:
