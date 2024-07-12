@@ -43,31 +43,31 @@ const Shell = {
     clear (){
         App.termOutput.innerHTML = "";
     },
-    echo (text = "\n", pre = false){
-        const echoElem = document.createElement(pre ? "pre" : "p");
+    echo (text = "\n", isPre = false){
+        const echoElem = document.createElement(isPre ? "pre" : "p");
 
         echoElem.textContent = text;
         App.termOutput.appendChild(echoElem);
 
         return echoElem;
     },
-    echoHTML (html = "", pre = false){
-        const echoElem = document.createElement(pre ? "pre" : "p");
+    echoHTML (html = "", isPre = false){
+        const echoElem = document.createElement(isPre ? "pre" : "p");
 
         echoElem.innerHTML = html;
         App.termOutput.appendChild(echoElem);
 
         return echoElem;
     },
-    echoMultiline (multilineText, pre){
+    echoMultiline (multilineText, isPre){
         multilineText.trim()
                      .split("\n")
-                     .forEach((line) => {this.echo(line, pre)});
+                     .forEach((line) => {this.echo(line, isPre)});
     },
-    echoMultilineHTML (multilineHTML, pre){
+    echoMultilineHTML (multilineHTML, isPre){
         multilineHTML.trim()
                      .split("\n")
-                     .forEach((line) => {this.echoHTML(line, pre)});
+                     .forEach((line) => {this.echoHTML(line, isPre)});
     },
     exec (input){
         const [command, ...args] = input.trim().split(" ");
