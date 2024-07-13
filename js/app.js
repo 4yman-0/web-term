@@ -98,11 +98,8 @@ const App = {
                 Math.max(inputCaret, this.termInput.selectionEnd) - 
                 Math.min(inputCaret, this.termInput.selectionEnd)
             }ch`;
-
-            console.debug(inputCaret, this.termInput.selectionEnd, this.termInputBlink.style.width);
         } else {
             this.termInputBlink.style.width = "1ch";
-            console.debug("reset!");
         }
     }
 };
