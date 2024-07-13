@@ -40,12 +40,12 @@ const App = {
             case "ArrowUp":
                 Shell.histUp();
                 this.updateInput();
-                this.updateCursor("begin");
+                this.updateCursor(0, "begin");
                 break;
             case "ArrowDown":
                 Shell.histDown();
                 this.updateInput();
-                this.updateCursor("end");
+                this.updateCursor(0, "end");
                 break;
             case "ArrowLeft":
                 this.updateCursor(-1);
@@ -70,19 +70,19 @@ const App = {
     blurInput() {
         this.termInputBlink.classList.remove('blink-active');
     },
-    updateCursor(offset = 0) {
+    updateCursor(offset = 0, instaMove = '') {
         const inputLength = this.termInput.value.length;
-        let inputCaret = this.termInput.selectionStart;
+        let inputCaret = this.termInput.selectionStart + offset;
 
-        if (offset === "begin") {
+        if (instaMove === "begin") {
             inputCaret = 0;
-        } else if (offset === "end") {
+        }
+        if (instaMove === "end") {
             inputCaret = inputLength;
-        } else if (typeof offset === "number") {
-            inputCaret += offset;
-        } else return null;
+        }
 
         // Check if offset is out-of-bound
+        // instaMove shouldn't do this
         if (inputCaret < 0 || inputCaret > inputLength) {
             inputCaret -= offset; // revert to previous caret position
         }
