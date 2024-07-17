@@ -31,6 +31,15 @@ const App = {
         this.termInput.addEventListener("blur",     this.blurInput  .bind(this));
     },
     handleInput (evt){
+        // Completely ignore selection
+        const isTextSelected = evt.shiftKey
+        || this.termInput.selectionStart !== this.termInput.selectionEnd;
+        
+        if (isTextSelected && evt.key.startsWith("Arrow")) {
+            evt.preventDefault();
+            return;
+        }
+
         switch (evt.key) {
             case "Enter":
                 Shell.execUserInput(this.termInput.value);
@@ -76,8 +85,7 @@ const App = {
 
         if (instaMove === "begin") {
             inputCaret = 0;
-        }
-        if (instaMove === "end") {
+        } else if (instaMove === "end") {
             inputCaret = inputLength;
         }
 
@@ -89,18 +97,6 @@ const App = {
 
         const caretRight = inputLength - inputCaret;
         this.termInputBlink.style.right = `${caretRight}ch`;
-
-        const isTextSelected = inputCaret !== this.termInput.selectionEnd
-                            && inputCaret !== inputLength;
-
-        if (isTextSelected) {
-            this.termInputBlink.style.width = `${
-                Math.max(inputCaret, this.termInput.selectionEnd) - 
-                Math.min(inputCaret, this.termInput.selectionEnd)
-            }ch`;
-        } else {
-            this.termInputBlink.style.width = "1ch";
-        }
     }
 };
 
