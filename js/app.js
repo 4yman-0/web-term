@@ -24,6 +24,15 @@ const App = {
         this.termInput.addEventListener("keydown", this.handleInput.bind(this));
     },
     handleInput (evt){
+        // Completely ignore selection
+        const isTextSelected = evt.shiftKey
+        || this.termInput.selectionStart !== this.termInput.selectionEnd;
+        
+        if (isTextSelected && evt.key.startsWith("Arrow")) {
+            evt.preventDefault();
+            return;
+        }
+
         switch (evt.key) {
             case "Enter":
                 Shell.execUserInput(this.termInput.value);

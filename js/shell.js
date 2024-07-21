@@ -59,15 +59,14 @@ const Shell = {
         return echoElem;
     },
     echoMultiline (multilineText, isPre){
-        // Split line breaks
-        const textArray = multilineText.trim().split("\n");
-
-        textArray.forEach((line) => {this.echo(line, isPre)});
+        multilineText.trim()
+                     .split("\n")
+                     .forEach((line) => {this.echo(line, isPre)});
     },
     echoMultilineHTML (multilineHTML, isPre){
-        const htmlArray = multilineHTML.trim().split("\n");
-
-        htmlArray.forEach((line) => {this.echoHTML(line, isPre)});
+        multilineHTML.trim()
+                     .split("\n")
+                     .forEach((line) => {this.echoHTML(line, isPre)});
     },
     exec (input){
         const [command, ...args] = input.trim().split(" ");
