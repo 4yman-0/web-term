@@ -4,20 +4,24 @@ import Shell from "./shell.js";
 
 const App = {
     init () {
-        App.term = document.getElementById("term");
-        App.term_output = document.getElementById("term_output");
-        App.term_prompt = document.getElementById("term_prompt");
-        App.term_command = document.getElementById("term_command");
-        App.term_input = document.getElementById("term_input");
+        // Get elements
+        this.term = document.getElementById("term");
+        this.termOutput = document.getElementById("term_output");
+        this.termPrompt = document.getElementById("term_prompt");
+        this.termCommand = document.getElementById("term_command");
+        this.termInput = document.getElementById("term_input");
 
-        App.term_input.value = "";
-        App.term_input.addEventListener("keydown", App.handleInput);
+        // Reset input value to prevent refill
+        this.termInput.value = "";
+
+        // Add event listener
+        this.termInput.addEventListener("keydown", this.handleInput.bind(this));
     },
     handleInput (evt){
         switch (evt.key) {
             case "Enter":
-                Shell.execUserInput(App.term_input.value);
-                App.term_input.value = "";
+                Shell.execUserInput(this.termInput.value);
+                this.termInput.value = "";
                 break;
             case "ArrowUp":
                 Shell.histUp();

@@ -1,9 +1,9 @@
 'use strict';
 
-//import App from './app';
 import Shell from './shell.js';
 import Config from './config.js'
 
+// set shortcut for `Shell.echo`
 const echo = (m, pre) => Shell.echo(m, pre);
 
 const Commands = new Map();
@@ -16,8 +16,8 @@ const Commands = new Map();
 
 Commands.set("example", ["example",
     (args) => {
-        Shell.echo("example!");
-        Shell.echo(args);
+        echo("example!");
+        echo(args);
     }
 ]);
 */
@@ -36,7 +36,7 @@ Commands.set("config", ["Configure the terminal",
 
 Commands.set("echo", ["Output some text (no quotes)",
     (args) => {
-        Shell.echo(args.join(" "));
+        echo(args.join(" "));
     }
 ]);
 
@@ -70,7 +70,7 @@ Commands.set("hist", ["Manipulate terminal history",
         switch (command) {
             case "list":
                 // List terminal history
-                Shell.hist.forEach((item) => {Shell.echo(item)});
+                Shell.hist.forEach((item) => {echo(item)});
                 break;
             case "clear":
                 Shell.hist = [""];
@@ -89,7 +89,6 @@ Commands.set("hist", ["Manipulate terminal history",
 
 Commands.set("info", ["Get some info about the browser",
     () => {
-        const echo = (e) => Shell.echo(e);
         const nav = navigator;
 
         // give me permissions
@@ -114,7 +113,7 @@ Commands.set("info", ["Get some info about the browser",
         echo(`languages: ${nav.languages.join(", ")}`);
         echo(`multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}`);
         echo(`platform: ${nav.platform || "unknown"}`);
-        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chrome/safari/other"}`);
+        echo(`productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}`);
         echo(`userAgent: ${nav.userAgent}`)
     }
 ]);
@@ -124,10 +123,10 @@ Commands.set("help", ["show descriptions",
         const subject = args[0];
 
         if (Commands.has(subject)) {
-            Shell.echo(Commands.get(subject)[0]);
+            echo(Commands.get(subject)[0]);
         } else {
             Commands.forEach((command, name) => {
-                Shell.echo(`${ name }\t-\t${ command[0] }`, true);
+                echo(`${ name }\t-\t${ command[0] }`, true);
             });
         }
     }
@@ -140,7 +139,7 @@ Commands.set("hist", ["show history",
         switch (operation) {
             case "list":
                 for (let i = 0; i < Shell.hist.length; i++) {
-                    Shell.echo(Shell.hist[i]);
+                    echo(Shell.hist[i]);
                 }
                 break;
             case "clear":
@@ -148,9 +147,9 @@ Commands.set("hist", ["show history",
                 Shell.histIndex = 0;
                 break;
             default:
-                Shell.echo("Usage: hist OPERATION");
-                Shell.echo("\n")
-                Shell.echo('OPERATION: "list" or "clear"');
+                echo("Usage: hist OPERATION");
+                echo("\n")
+                echo('OPERATION: "list" or "clear"');
                 break;
         }
     }
@@ -160,7 +159,7 @@ Commands.set("nav", ["navigate to url",
     (args) => {
         const [url, name] = args;
 
-        Shell.echo(`Navigating to ${name || url}...`);
+        echo(`Navigating to ${name || url}...`);
         location.href = url;
     }
 ]);
@@ -173,9 +172,9 @@ Commands.set("repo", ["go to repository",
 
 Commands.set("whoami", ["Who am I?",
     () => {
-        Shell.echo("You are THE USER");
-        Shell.echo("\n");
-        Shell.echo('""', true);
+        echo("You are THE USER");
+        echo("\n");
+        echo('""', true);
     }
 ]);
 
