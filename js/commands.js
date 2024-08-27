@@ -1,7 +1,7 @@
 'use strict';
 
 import Shell from './shell.js';
-import Config from './config.js'
+import Config from './config.js';
 
 // set shortcut for `Shell.echo`
 const echo = (m, pre) => Shell.echo(m, pre);
