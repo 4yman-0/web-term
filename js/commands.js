@@ -42,9 +42,9 @@ Commands.set("echo", ["Output some text (no quotes)",
 
 Commands.set("exit", ["Exit the terminal",
     (args) => {
-        let mode = args[0] || "help";
+        let command = args[0] || "help";
 
-        switch (mode) {
+        switch (command) {
             case "restart":
                 location.reload();
                 break;
