@@ -31,6 +31,7 @@ Commands.set("clear", ["Clear the screen",
 Commands.set("config", ["Configure the terminal",
     () => {
         echo("Not Implemented");
+        Config.updateConfig();
     }
 ]);
 
@@ -42,7 +43,7 @@ Commands.set("echo", ["Output some text (no quotes)",
 
 Commands.set("exit", ["Exit the terminal",
     (args) => {
-        let command = args[0] || "help";
+        let command = args[0];
 
         switch (command) {
             case "restart":
@@ -68,7 +69,7 @@ COMMAND:
 
 Commands.set("hist", ["Manipulate terminal history",
     (args) => {
-        let command = args[0] || "help";
+        let command = args[0];
 
         switch (command) {
             case "list":
