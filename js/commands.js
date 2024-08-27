@@ -136,25 +136,7 @@ COMMAND:
     }
 ]);
 
-/* Deprecated
-   Will be moved to verbose-webpage (or not)
-
-Commands.set("info", ["Get info about the browser",
-    () => {
-        const nav = navigator;
-
-Shell.echoMultiline(`
-language:   ${nav.language}
-languages:  ${nav.languages.join(", ")}
-multitouch: ${nav.maxTouchPoints > 1 ?"supported":"unsupported"}
-platform:   ${nav.platform || "unknown"}
-productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}
-userAgent:  ${nav.userAgent}
-`);
-    }
-]);*/
-
-Commands.set("help", ["show descriptions",
+Commands.set("help", ["Show descriptions",
     (args) => {
         const subject = args[0];
 
@@ -165,52 +147,6 @@ Commands.set("help", ["show descriptions",
                 echo(`${ name }\t-\t${ command[0] }`, true);
             });
         }
-    }
-]);
-
-Commands.set("hist", ["show history",
-    (args) => {
-        const operation = args[0];
-
-        switch (operation) {
-            case "list":
-                for (let i = 0; i < Shell.hist.length; i++) {
-                    echo(Shell.hist[i]);
-                }
-                break;
-            case "clear":
-                Shell.hist = [""];
-                Shell.histIndex = 0;
-                break;
-            default:
-                echo("Usage: hist OPERATION");
-                echo("\n")
-                echo('OPERATION: "list" or "clear"');
-                break;
-        }
-    }
-]);
-
-Commands.set("nav", ["navigate to url",
-    (args) => {
-        const [url, name] = args;
-
-        echo(`Navigating to ${name || url}...`);
-        location.href = url;
-    }
-]);
-
-Commands.set("repo", ["go to repository",
-    () => {
-        Shell.exec("nav github.com/4yman-el/web-term GitHub");
-    }
-]);
-
-Commands.set("whoami", ["Who am I?",
-    () => {
-        echo("You are THE USER");
-        echo("\n");
-        echo('""', true);
     }
 ]);
 
