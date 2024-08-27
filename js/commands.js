@@ -1,95 +1,103 @@
 'use strict';
 
 import Shell from './shell.js';
-import Config from './config.js';
 
-// set shortcut for `Shell.echo`
-const echo = (m, pre) => Shell.echo(m, pre);
 
-const Commands = new Map();
+/**
+  *    `Commands` is a `Map` where:
+  *    - Keys are strings.
+  *    - Values are arrays of length 2 with
+  *    the description and the function respectively.
+  * 
+  * ```javascript
+  * Commands.set("example", ["example command",
+  *     (args) => {
+  *         echo("example!");
+  *         echo(args);
+  *     }
+  * ]);
+  * ```
+  * @type {Map<String,Array>}
+  */
+const commands = new Map();
 
-/*
-    `Commands` is a `Map` where:
-    - Keys are strings.
-    - Values are arrays of length 2 with
-    the description and the function respectively.
 
-Commands.set("example", ["example",
+commands.set("clear", ["Clear the screen",
     (args) => {
-        echo("example!");
-        echo(args);
+        const shell = args[0];
+        shell.clear();
     }
 ]);
-*/
 
-Commands.set("clear", ["Clear the screen",
-    () => {
-        Shell.clear();
-    }
-]);
-
-Commands.set("config", ["Configure the terminal",
+commands.set("config", ["Configure the terminal",
     (args) => {
-        const [command, name] = args;
+        const configNotFound = (name) => {
+            shell.echoHTML(`<span class="red"> Configuration ${name} not found </span>`);
+        }
+
+        let [shell, command, name, value] = args;
 
         switch (command) {
+            case "list":
+                shell.echoMultiline(
+                    "Valid configurations:\n" + shell.cfg.validConfig.join("\n")
+                );
+                break;
             case "get":
-                if (Config.validConfig.includes(name)) {
-                    echo(Config[name]);
-                } else {
-                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
-                }
+                if (shell.cfg.validConfig.includes(name)) {
+                    shell.echo(shell.cfg[name]);
+                } else configNotFound(name);
                 break;
             case "set":
                 // Prevent string "undefined"
-                const value = args[2] || "";
+                value = value || "";
 
-                if (Config.validConfig.includes(name)) {
+                if (shell.cfg.validConfig.includes(name)) {
                     // Hack, calls "set" + name
-                    Config["set" + name](value);
-                } else {
-                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
-                }
+                    shell.cfg["set" + name](value);
+                } else configNotFound(name);
                 break;
             default:
 // Not sure how to deal with this
-Shell.echoMultiline(`
-Usage: config [COMMAND] [NAME] [VALUE]
+shell.echoMultiline(`
+Usage: config COMMAND [NAME] [VALUE]
 
 COMMAND:
+  list
   get
   set
 NAME:
 ${
-    "  " + Config.validConfig.join("\n  ")
+    "  " + shell.cfg.validConfig.join("\n  ")
 }
 `, true);
                 break;
         }
 
-        Config.updateConfig();
+        shell.cfg.updateConfig.call(shell);
     }
 ]);
 
-Commands.set("echo", ["Output text (no quotes)",
+commands.set("echo", ["Output text (no quotes)",
     (args) => {
-        echo(args.join(" "));
+        const [shell, ...message] = args;
+        shell.echo(message.join(" "));
     }
 ]);
 
-Commands.set("exit", ["Exit the terminal",
+commands.set("exit", ["Exit the terminal",
     (args) => {
-        let command = args[0];
+        const [shell, command] = args;
 
         switch (command) {
             case "restart":
                 location.reload();
                 break;
             case "shutdown":
-                window.close();
+                close();
                 break;
             default:
-Shell.echoMultiline(`
+shell.echoMultiline(`
 Usage: exit [COMMAND]
 
 COMMAND:
@@ -102,28 +110,28 @@ COMMAND:
 ]);
 
 
-Commands.set("hist", ["Manipulate terminal history",
+commands.set("hist", ["Manipulate terminal history",
     (args) => {
-        let command = args[0];
+        let [shell, command] = args;
 
         switch (command) {
             case "list":
                 // List terminal history
-                Shell.hist.forEach((item) => {echo(item)});
+                shell.hist.forEach((item) => { shell.echo(item) });
                 break;
             case "clear":
-                Shell.hist = [""];
-                Shell.histIndex = 0;
+                shell.hist = [""];
+                shell.histIndex = 0;
                 break;
             case "on":
-                Shell.histOn=true;
+                shell.histOn=true;
                 break;
             case "off":
-                Shell.histOn=false;
+                shell.histOn=false;
                 break;
             default:
-Shell.echoMultiline(`
-Usage: hist [COMMAND]
+shell.echoMultiline(`
+Usage: hist COMMAND
 
 COMMAND:
   list        show history
@@ -136,18 +144,36 @@ COMMAND:
     }
 ]);
 
-Commands.set("help", ["Show descriptions",
+commands.set("help", ["Show descriptions",
     (args) => {
+<<<<<<< HEAD
+<<<<<<< HEAD
         const subject = args[0];
 
         if (Commands.has(subject)) {
             echo(Commands.get(subject)[0]);
         } else {
             Commands.forEach((command, name) => {
+=======
+        if (args[0] == undefined) {
+            commands.forEach((command, name) => {
+>>>>>>> b07e1ef (untested update)
                 echo(`${ name }\t-\t${ command[0] }`, true);
+=======
+        const [shell, command] = args;
+        if (command == undefined) {
+            commands.forEach((command, name) => {
+                shell.echo(`${ name }\t-\t${ command[0] }`, true);
+>>>>>>> ff07278 (Big JS update)
             });
+            return;
+        }
+        if (commands.has(command)) {
+            shell.echo(commands.get(command)[0]);
+        } else {
+            shell.echoHTML(`<span class="red">Command ${command} not found</span>`);
         }
     }
 ]);
 
-export default Commands;
+export default commands;

@@ -1,32 +1,30 @@
 'use strict';
 
-import Config from './config.js'
-import Shell from "./shell.js";
-
 const _$ = (id) => document.getElementById(id);
 
-const App = {
-    async init () {
-        // Get elements
+class App {
+    constructor () {
         this.term =         _$("term");
         this.termOutput =   _$("term-output");
         this.termPrompt =   _$("term-prompt");
         this.termPS1 =      _$("term-ps1");
         this.termInput =    _$("term-input");
+    }
 
-        // Update config
-        Config.updateConfig();
-
+    init (){
         // Reset input value to prevent refill
         this.termInput.value = "";
+    }
 
-        // Add event listener
-        this.termInput.addEventListener("keydown", this.handleInput.bind(this));
-    },
+    /**
+     * @this {Shell}
+     * @param {KeyboardEvent} evt
+     */
     handleInput (evt){
         // Completely ignore selection
         const isTextSelected = evt.shiftKey
-        || this.termInput.selectionStart !== this.termInput.selectionEnd;
+        || this.app.termInput.selectionStart
+            !== this.app.termInput.selectionEnd;
         
         if (isTextSelected && evt.key.startsWith("Arrow")) {
             evt.preventDefault();
@@ -35,19 +33,49 @@ const App = {
 
         switch (evt.key) {
             case "Enter":
-                Shell.execUserInput(this.termInput.value);
-                this.termInput.value = "";
+                this.execUserInput(this.app.termInput.value);
+                this.app.termInput.value = "";
                 break;
             case "ArrowUp":
-                Shell.histUp();
+                this.histUp();
                 break;
             case "ArrowDown":
-                Shell.histDown();
+                this.histDown();
                 break;
             default:
                 break;
         }
     }
-};
+
+    selectInputEnd (){
+        // move I-beam to end of input
+        const inputLength = this.termInput.value.length;
+        this.termInput.setSelectionRange(
+            inputLength,
+            inputLength
+        );
+    }
+
+    /**
+     * @type {HTMLElement|null}
+     */
+    term = null
+    /**
+     * @type {HTMLElement|null}
+     */
+    termOutput = null
+    /**
+     * @type {HTMLElement|null}
+     */
+    termPrompt = null
+    /**
+     * @type {HTMLElement|null}
+     */
+    termPS1 = null
+    /**
+     * @type {HTMLElement|null}
+     */
+    termInput = null
+}
 
 export default App;
