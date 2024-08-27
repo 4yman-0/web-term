@@ -1,15 +1,21 @@
 'use strict';
 
+import Config from './config.js'
 import Shell from "./shell.js";
 
+const _$ = (id) => document.getElementById(id);
+
 const App = {
-    init () {
+    async init () {
         // Get elements
-        this.term = document.getElementById("term");
-        this.termOutput = document.getElementById("term_output");
-        this.termPrompt = document.getElementById("term_prompt");
-        this.termCommand = document.getElementById("term_command");
-        this.termInput = document.getElementById("term_input");
+        this.term =         _$("term");
+        this.termOutput =   _$("term-output");
+        this.termPrompt =   _$("term-prompt");
+        this.termPS1 =      _$("term-ps1");
+        this.termInput =    _$("term-input");
+
+        // Update config
+        Config.updateConfig();
 
         // Reset input value to prevent refill
         this.termInput.value = "";
@@ -18,6 +24,15 @@ const App = {
         this.termInput.addEventListener("keydown", this.handleInput.bind(this));
     },
     handleInput (evt){
+        // Completely ignore selection
+        const isTextSelected = evt.shiftKey
+        || this.termInput.selectionStart !== this.termInput.selectionEnd;
+        
+        if (isTextSelected && evt.key.startsWith("Arrow")) {
+            evt.preventDefault();
+            return;
+        }
+
         switch (evt.key) {
             case "Enter":
                 Shell.execUserInput(this.termInput.value);

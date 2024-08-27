@@ -32,40 +32,37 @@ Commands.set("config", ["Configure the terminal",
     (args) => {
         const [command, name] = args;
 
-        const configHasName = (name && Config.hasOwnProperty(name));
-
         switch (command) {
             case "get":
-                if (configHasName) {
+                if (Config.validConfig.includes(name)) {
                     echo(Config[name]);
+                } else {
+                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
                 }
                 break;
             case "set":
                 // Prevent string "undefined"
                 const value = args[2] || "";
 
-                const propertyIsFuncOrObj = 
-                (typeof Config[name] == "function") ||
-                (typeof Config[name] == "object");
-
-                if (configHasName && !propertyIsFuncOrObj) {
-                    Config[name] = value;
+                if (Config.validConfig.includes(name)) {
+                    // Hack, calls "set" + name
+                    Config["set" + name](value);
                 } else {
-                    Shell.echoHTML(
-                        `<span class="red">property ${name} does not exist</span>`
-                    );
+                    Shell.echoHTML(`<span class="red"> Config ${name} not found </span>`);
                 }
                 break;
             default:
 // not sure how to deal with this
 Shell.echoMultiline(`
-Usage: config [COMMAND] [NAME]
+Usage: config [COMMAND] [NAME] [VALUE]
 
-COMMAND: get or set
+COMMAND:
+  get
+  set
 NAME:
-  username
-  hostname
-  workingDir
+${
+    "  " + Config.validConfig.join("\n  ")
+}
 `, true);
                 break;
         }
@@ -118,13 +115,21 @@ Commands.set("hist", ["Manipulate terminal history",
                 Shell.hist = [""];
                 Shell.histIndex = 0;
                 break;
+            case "on":
+                Shell.histOn=true;
+                break;
+            case "off":
+                Shell.histOn=false;
+                break;
             default:
 Shell.echoMultiline(`
 Usage: hist [COMMAND]
 
-MODE:
+COMMAND:
   list        show history
   clear       remove all history items
+  on          enable history
+  off         disable history
 `, true);
                 break;
         }

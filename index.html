@@ -7,14 +7,17 @@
     <meta name="keywords" content="web,terminal">
     <meta name="description" content="A terminal-like webpage running completely from your browser ">
 
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+
     <title>Web Terminal</title>
 
     <style>
+    /* Minimal style before CSS files load */
     body {
         background: #000;
         color: #fff;
-
-        font-family: monospace;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1rem;
     }
 
     input {
@@ -22,8 +25,8 @@
         outline: none;
         background: none;
         color: #fff;
-        font-family: monospace;
-        font-size: .9rem;
+        font-family: 'Roboto Mono', monospace;
+        font-size: 1rem;
     }
     </style>
 
@@ -31,27 +34,26 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <main id="app">
-        <div id="term">
-            <div id="term_output">
+    <main class="app">
+        <section class="term" id="term">
+            <div class="term-output" id="term-output">
                 <noscript><p class="red">No JavaScript?</p></noscript>
                 <p>Welcome to <strong>WEB-TERM</strong></p>
             </div>
-            <p id="term_prompt">
-                <span id="term_command">
-                    <span class="green">user@web-term</span>:<span class="blue">~</span>$ 
-                </span>
-                <input id="term_input"
+            <p class="term-prompt" id="term-prompt">
+                <span class="term-ps1" id="term-ps1"><span class="green">user@web-term</span>:<span class="blue">~</span>$ </span>
+                <input id="term-input"
+                 class="term-input"
                  type="text"
                  autocomplete="none">
             </p>
-        </div>
+        </section>
     </main>
 
     <script src="js/app.js" defer type="module"></script>
     <script src="js/config.js" defer type="module"></script>
     <script src="js/shell.js" defer type="module"></script>
     <script src="js/commands.js" defer type="module"></script>
-    <script src="js/main.js" defer type="module"></script>
+    <script src="js/init.js" defer type="module"></script>
 </body>
 </html>

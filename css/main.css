@@ -1,25 +1,5 @@
 /* CSS */
 
-
-/* ANIMATIONS */
-
-@keyframes text-blink {
-    0%, 49% {
-        color: #FFF;
-    }
-
-    50%, 100% {
-        color: transparent;
-    }
-}
-
-
-/* HTML */
-
-body {
-    padding: 0 .1rem;
-}
-
 a {
     color: #3FF;
 }
@@ -44,31 +24,37 @@ pre {
     visibility: hidden;
 }
 
-.blinker {
-    user-select: none;
-    animation: text-blink .8s linear infinite;
-}
-
 
 /* APP */
 
-#app, #term {
-    min-height: 100vh;
+::selection,
+::-moz-selection {
+    color: #000;
+    background: #FFF;
 }
 
-#term {
+.app {
+    padding: 0 .1rem;
+}
+
+.term {
+    min-height: 100vh;
     cursor: text;
 }
 
-#term_prompt {
+.term-prompt {
     display: flex;
+    white-space: pre;
 }
 
-#term_command {
+.term-ps1 {
     flex-shrink: 0;
 }
 
-#term_input {
+.term-ps1 {
+    white-space: pre;
+}
+
+.term-input {
     width: 100%;
-    padding-left: .55rem;
 }

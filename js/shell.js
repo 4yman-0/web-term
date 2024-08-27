@@ -7,17 +7,27 @@ const Shell = {
     hist: [""],
     histIndex: 0,
     histMax: 200,
+    histOn: true,
 
     histUp (){
         if (Shell.histIndex > 0) {
             Shell.histIndex--;
             App.termInput.value = Shell.hist[Shell.histIndex];
+
+            // move I-beam to end of input
+            // Already done by browser
         }
     },
     histDown (){
         if (Shell.histIndex < Shell.hist.length - 1) {
             Shell.histIndex++;
             App.termInput.value = Shell.hist[Shell.histIndex];
+
+            // move I-beam to end of input
+            App.termInput.setSelectionRange(
+                App.termInput.value.length,
+                App.termInput.value.length
+            );
         }
     },
     pushHist (input){
@@ -32,36 +42,31 @@ const Shell = {
     clear (){
         App.termOutput.innerHTML = "";
     },
-    echo (text, pre = false){
-        if (!text) return;
-
-        const echoElem = document.createElement(pre ? "pre" : "p");
+    echo (text = "\n", isPre = false){
+        const echoElem = document.createElement(isPre ? "pre" : "p");
 
         echoElem.textContent = text;
         App.termOutput.appendChild(echoElem);
 
         return echoElem;
     },
-    echoHTML (html, pre = false){
-        if (!html) return;
-
-        const echoElem = document.createElement(pre ? "pre" : "p");
+    echoHTML (html = "", isPre = false){
+        const echoElem = document.createElement(isPre ? "pre" : "p");
 
         echoElem.innerHTML = html;
         App.termOutput.appendChild(echoElem);
 
         return echoElem;
     },
-    echoMultiline (multilineText, pre){
-        // Split line breaks
-        const textArray = multilineText.trim().split("\n");
-
-        textArray.forEach((line) => {this.echo(line, pre)});
+    echoMultiline (multilineText, isPre){
+        multilineText.trim()
+                     .split("\n")
+                     .forEach((line) => {this.echo(line, isPre)});
     },
-    echoMultilineHTML (multilineHTML, pre){
-        const htmlArray = multilineHTML.trim().split("\n");
-
-        htmlArray.forEach((line) => {this.echoHTML(line, pre)});
+    echoMultilineHTML (multilineHTML, isPre){
+        multilineHTML.trim()
+                     .split("\n")
+                     .forEach((line) => {this.echoHTML(line, isPre)});
     },
     exec (input){
         const [command, ...args] = input.trim().split(" ");
@@ -75,11 +80,13 @@ const Shell = {
     },
     execUserInput (input){
         // Echo prompt to screen
-        Shell.echoHTML(`${App.termCommand.innerHTML} ${input}`);
+        Shell.echoHTML(`${App.termPS1.innerHTML} ${input}`);
 
         if (!input) return;
 
-        Shell.pushHist(input);
+        if (Shell.histOn) {
+            Shell.pushHist(input);
+        }
 
         const command = input.split(" ")[0];
 
