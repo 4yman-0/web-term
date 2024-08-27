@@ -29,8 +29,47 @@ Commands.set("clear", ["Clear the screen",
 ]);
 
 Commands.set("config", ["Configure the terminal",
-    () => {
-        echo("Not Implemented");
+    (args) => {
+        const [command, name] = args;
+
+        const configHasName = (name && Config.hasOwnProperty(name));
+
+        switch (command) {
+            case "get":
+                if (configHasName) {
+                    echo(Config[name]);
+                }
+                break;
+            case "set":
+                // Prevent string "undefined"
+                const value = args[2] || "";
+
+                const propertyIsFuncOrObj = 
+                (typeof Config[name] == "function") ||
+                (typeof Config[name] == "object");
+
+                if (configHasName && !propertyIsFuncOrObj) {
+                    Config[name] = value;
+                } else {
+                    Shell.echoHTML(
+                        `<span class="red">property ${name} does not exist</span>`
+                    );
+                }
+                break;
+            default:
+// not sure how to deal with this
+Shell.echoMultiline(`
+Usage: config [COMMAND] [NAME]
+
+COMMAND: get or set
+NAME:
+  username
+  hostname
+  workingDir
+`, true);
+                break;
+        }
+
         Config.updateConfig();
     }
 ]);
