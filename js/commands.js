@@ -74,7 +74,7 @@ NAME:
     }
 ]);
 
-Commands.set("echo", ["Output some text (no quotes)",
+Commands.set("echo", ["Output text (no quotes)",
     (args) => {
         echo(args.join(" "));
     }
@@ -92,7 +92,6 @@ Commands.set("exit", ["Exit the terminal",
                 window.close();
                 break;
             default:
-// not sure how to deal with this
 Shell.echoMultiline(`
 Usage: exit [COMMAND]
 
@@ -132,7 +131,7 @@ MODE:
     }
 ]);
 
-Commands.set("info", ["Get some info about the browser",
+Commands.set("info", ["Get info about the browser",
     () => {
         const nav = navigator;
 
