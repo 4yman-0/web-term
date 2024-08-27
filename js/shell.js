@@ -2,6 +2,7 @@
 
 import App from './app.js';
 import Commands from './commands.js';
+import Config from './config.js';
 
 const Shell = {
     hist: [""],
@@ -69,6 +70,10 @@ const Shell = {
                      .forEach((line) => {this.echoHTML(line, isPre)});
     },
     exec (input){
+		// Replace
+		input = input.replace("~", `/home/${Config.username}`);
+
+
         const [command, ...args] = input.trim().split(" ");
 
         if (Commands.has(command)) {
