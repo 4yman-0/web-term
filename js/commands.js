@@ -35,7 +35,7 @@ commands.set("config", ["Configure the terminal",
             shell.echoHTML(`<span class="red"> Configuration ${name} not found </span>`);
         }
 
-        let [shell, command, name, value] = args;
+        let [shell, command, name = "", value = ""] = args;
 
         switch (command) {
             case "list":
@@ -44,17 +44,16 @@ commands.set("config", ["Configure the terminal",
                 );
                 break;
             case "get":
-                if (shell.cfg.validConfig.includes(name)) {
-                    shell.echo(shell.cfg[name]);
+                let getVal = shell.cfg.get(name);
+                if (getVal) {
+                    shell.echo(getVal);
                 } else configNotFound(name);
                 break;
             case "set":
-                // Prevent string "undefined"
-                value = value || "";
+                let setVal = shell.cfg.set(name, value);
 
-                if (shell.cfg.validConfig.includes(name)) {
-                    // Hack, calls "set" + name
-                    shell.cfg["set" + name](value);
+                if (setVal) {
+                    shell.echo(`Configuration ${name} is now ${value}`);
                 } else configNotFound(name);
                 break;
             default:
