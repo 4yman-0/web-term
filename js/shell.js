@@ -64,6 +64,10 @@ const Shell = {
         // If input is empty, do nothing
         if (!input) return;
 
+        Shell.pushHist(input);
+
+        const command = input.split(" ")[0];
+
         App.term_prompt.classList.add("hidden");
 
         if (Shell.exec(input) === null) {
