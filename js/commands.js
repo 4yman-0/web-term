@@ -5,7 +5,7 @@
   *    - Keys are strings.
   *    - Values are arrays of length 2 with
   *    the description and the function respectively.
-  * 
+  *
   * ```javascript
   * Commands.set("example", ["example command",
   *     (args) => {
@@ -146,25 +146,11 @@ COMMAND:
 
 commands.set("help", ["Show descriptions",
     (args) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        const subject = args[0];
-
-        if (Commands.has(subject)) {
-            echo(Commands.get(subject)[0]);
-        } else {
-            Commands.forEach((command, name) => {
-=======
-        if (args[0] == undefined) {
-            commands.forEach((command, name) => {
->>>>>>> b07e1ef (untested update)
-                echo(`${ name }\t-\t${ command[0] }`, true);
-=======
         const [shell, command] = args;
+
         if (command == undefined) {
             commands.forEach((command, name) => {
                 shell.echo(`${ name }\t-\t${ command[0] }`, true);
->>>>>>> ff07278 (Big JS update)
             });
             return;
         }

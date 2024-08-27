@@ -1,5 +1,7 @@
 'use strict';
 
+import AppUI from "./appUI.js";
+
 class Shell {
     hist = [""]
     histIndex = 0
@@ -7,9 +9,9 @@ class Shell {
     histOn = true
 
     /**
-     * @type {App}
+     * @type {AppUI}
      */
-    app = {}
+    appUI = {}
 
     /**
      * @type {Config}
@@ -22,47 +24,64 @@ class Shell {
     cmds = undefined
 
     /**
-     * @param {App} app
+     * @param {AppUI} appUI
      * @param {Config} config
      * @param {Map} commands
      */
-    constructor (app, config, commands){
-        this.app = app;
+    constructor (appUI, config, commands){
+        this.appUI = appUI;
         this.cfg = config;
         this.cmds = commands;
 
-        this.handleInput = this.app.handleInput.bind(this);
+		this.handleInput = this.handleInput.bind(this);
     }
 
     start (){
-        this.app.termInput.addEventListener("keydown", this.handleInput);
-        this.app.init();
+        this.appUI.termInput.addEventListener("keydown", this.handleInput);
+        this.appUI.start();
     }
 
     stop (){
-        this.app.termInput.removeEventListener("keydown", this.handleInput);
+        this.appUI.termInput.removeEventListener("keydown", this.handleInput);
     }
 
-    handleInput (){
-        console.warn("Using `Shell`'s handleInput, should use `App`", this.app);
+    handleInput (evt){
+		const action = this.appUI.handleInput(evt);
+
+		switch (action){
+			case 1:
+				this.execUserInput(this.appUI.termInput.value);
+				this.appUI.termInput.value = "";
+				break;
+			case 2:
+				this.histUp();
+				break;
+			case 3:
+				this.histDown();
+				break;
+			default:
+				break;
+		}
     }
 
     histUp (){
         if (this.histIndex > 0) {
             this.histIndex--;
-            this.app.termInput.value = this.hist[this.histIndex];
+            this.appUI.termInput.value = this.hist[this.histIndex];
 
-            this.app.selectInputEnd();
+            this.appUI.selectInputEnd();
         }
     }
+
     histDown (){
         if (this.histIndex < this.hist.length - 1) {
             this.histIndex++;
-            this.app.termInput.value = this.hist[this.histIndex];
+            this.appUI.termInput.value = this.hist[this.histIndex];
 
-            this.app.selectInputEnd();
+            this.appUI.selectInputEnd();
         }
     }
+
     pushHist (input){
         this.hist.pop();
         this.hist.push(input, "");
@@ -72,33 +91,29 @@ class Shell {
             this.histIndex++;
         }
     }
+
+
+	// Wrap composition
     clear (){
-        this.app.termOutput.innerHTML = "";
+		this.appUI.clear();
     }
-    echo (text = "\n", isPre = false){
-        const echoElem = document.createElement(isPre ? "pre" : "p");
 
-        echoElem.textContent = text;
-        this.app.termOutput.appendChild(echoElem);
+    echo (text, isPre){
+		this.appUI.echo(text, isPre);
+    }
 
-        return echoElem;
+    echoHTML (html, isPre){
+		this.appUI.echoHTML(html, isPre);
     }
-    echoHTML (html = "", isPre = false){
-        const echoElem = document.createElement(isPre ? "pre" : "p");
 
-        echoElem.innerHTML = html;
-        this.app.termOutput.appendChild(echoElem);
+    echoMultiline (text, isPre){
+		this.appUI.echoMultiline(text, isPre);
+    }
 
-        return echoElem;
+    echoMultilineHTML (html, isPre){
+		this.appUI.echoMultilineHTML(html, isPre);
     }
-    echoMultiline (multilineText, isPre){
-        multilineText.split("\n")
-                     .forEach((line) => {this.echo(line, isPre)});
-    }
-    echoMultilineHTML (multilineHTML, isPre){
-        multilineHTML.split("\n")
-                     .forEach((line) => {this.echoHTML(line, isPre)});
-    }
+
     exec (input){
 		// Replace
 		input = input.replace("~", `/home/${this.cfg.username}`);
@@ -110,9 +125,10 @@ class Shell {
             this.cmds.get(command)[1]([this, ...args]);
         } else return null;
     }
+
     execUserInput (input){
         // Echo prompt to screen
-        this.echoHTML(`${this.app.termPS1.innerHTML} ${input}`);
+        this.echoHTML(`${this.appUI.termPS1.innerHTML} ${input}`);
 
         if (!input) return;
 
@@ -122,15 +138,15 @@ class Shell {
 
         const command = input.split(" ")[0];
 
-        this.app.termPrompt.classList.add("hidden");
+        this.appUI.termPrompt.classList.add("hidden");
 
         // Execute, if null is returned, throw error
         if (this.exec(input) === null) {
             this.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
-        this.app.selectInputEnd();
-        this.app.termPrompt.classList.remove("hidden");
+        this.appUI.selectInputEnd();
+        this.appUI.termPrompt.classList.remove("hidden");
     }
 }
 

@@ -1,13 +1,13 @@
 'use strict';
 
-import App from './app.js';
+import AppUI from './appUI.js';
 import commands from './commands.js';
 import Config from './config.js';
 import Shell from './shell.js';
 
-const app = new App();
+const appUI = new AppUI();
 const cfg = new Config();
-const shell = new Shell(app, cfg, commands);
+const shell = new Shell(appUI, cfg, commands);
 
 // "Finally"
 shell.start();

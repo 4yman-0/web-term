@@ -5,9 +5,7 @@ const _$ = (id) => document.getElementById(id);
 
 let term,termOutput,termPrompt,termPS1,termInput;
 
-const initGlobalDOM = () => {
-    if (term !== null) return;
-
+const _initGlobalDOM = () => {
     term =       _$("term");
     termOutput = _$("term-output");
     termPrompt = _$("term-prompt");
@@ -17,32 +15,31 @@ const initGlobalDOM = () => {
 
 class App {
     constructor () {
-        if (term === null) {
-            initGlobalDOM();
+        if (!term) {
+            _initGlobalDOM();
         }
         // Set from global (module) vars
-        this.term =       term;
+        this.term       = term;
         this.termOutput = termOutput;
         this.termPrompt = termPrompt;
-        this.termPS1 =    termPS1;
-        this.termInput =  termInput;
+        this.termPS1    = termPS1;
+        this.termInput  = termInput;
     }
 
-    init (){
+    start (){
         // Reset input value to prevent refill
         this.termInput.value = "";
     }
 
     /**
-     * @this {Shell}
      * @param {KeyboardEvent} evt
      */
     handleInput (evt){
         // Completely ignore selection
         const isTextSelected = evt.shiftKey
-        || this.app.termInput.selectionStart
-            !== this.app.termInput.selectionEnd;
-        
+        || this.termInput.selectionStart
+            !== this.termInput.selectionEnd;
+
         if (isTextSelected && evt.key.startsWith("Arrow")) {
             evt.preventDefault();
             return null;
@@ -50,15 +47,11 @@ class App {
 
         switch (evt.key) {
             case "Enter":
-                this.execUserInput(this.app.termInput.value);
-                this.app.termInput.value = "";
-                break;
+				return 1;
             case "ArrowUp":
-                this.histUp();
-                break;
+				return 2;
             case "ArrowDown":
-                this.histDown();
-                break;
+				return 3;
             default:
                 break;
         }
@@ -72,27 +65,6 @@ class App {
             inputLength
         );
     }
-
-    /**
-     * @type {HTMLElement|null}
-     */
-    term = null
-    /**
-     * @type {HTMLElement|null}
-     */
-    termOutput = null
-    /**
-     * @type {HTMLElement|null}
-     */
-    termPrompt = null
-    /**
-     * @type {HTMLElement|null}
-     */
-    termPS1 = null
-    /**
-     * @type {HTMLElement|null}
-     */
-    termInput = null
 }
 
 export default App;
