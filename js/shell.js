@@ -31,17 +31,31 @@ const Shell = {
     clear (){
         App.term_output.innerHTML = "";
     },
-    echo (text = "\n", pre = false){
+    echo (text, pre = false){
+        if (!text) return;
+
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerText = text;
         App.term_output.appendChild(echoElem);
         return echoElem;
     },
-    echoHTML (html = "", pre = false){
+    echoHTML (html, pre = false){
+        if (!html) return;
+
         const echoElem = document.createElement(pre ? "pre" : "p");
         echoElem.innerHTML = html;
         App.term_output.appendChild(echoElem);
         return echoElem;
+    },
+    exec (input){
+        const [command, ...args] = input.trim().split(" ");
+
+        if (Commands.has(command)) {
+            // Execute command with args
+            Commands.get(command)[1](args);
+        } else {
+            return null;
+        }
     },
     execUserInput (input){
         // Echo prompt to screen
@@ -50,16 +64,9 @@ const Shell = {
         // If input is empty, do nothing
         if (!input) return;
 
-        Shell.pushHist(input);
-
-        const [command, ...args] = input.trim().split(" ");
-
         App.term_prompt.classList.add("hidden");
 
-        if (Commands.has(command)) {
-            // Execute command with args
-            Commands.get(command)[1](args);
-        } else {
+        if (Shell.exec(input) === null) {
             Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
