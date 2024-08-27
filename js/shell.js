@@ -102,6 +102,9 @@ const Shell = {
             Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
+        // Scroll to end
+        App.term.scrollTop = App.term.scrollHeight;
+
         App.termPrompt.classList.remove("hidden");
     }
 };

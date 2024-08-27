@@ -52,7 +52,7 @@ Commands.set("config", ["Configure the terminal",
                 }
                 break;
             default:
-// not sure how to deal with this
+// Not sure how to deal with this
 Shell.echoMultiline(`
 Usage: config [COMMAND] [NAME] [VALUE]
 
@@ -136,6 +136,9 @@ COMMAND:
     }
 ]);
 
+/* Deprecated
+   Will be moved to verbose-webpage (or not)
+
 Commands.set("info", ["Get info about the browser",
     () => {
         const nav = navigator;
@@ -149,7 +152,7 @@ productSub: ${nav.productSub=="20100101"?"firefox":"chromium/safari"}
 userAgent:  ${nav.userAgent}
 `);
     }
-]);
+]);*/
 
 Commands.set("help", ["show descriptions",
     (args) => {
