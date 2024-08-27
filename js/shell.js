@@ -35,7 +35,7 @@ const Shell = {
         if (!text) return;
 
         const echoElem = document.createElement(pre ? "pre" : "p");
-        echoElem.innerText = text;
+        echoElem.textContent = text;
         App.term_output.appendChild(echoElem);
         return echoElem;
     },
