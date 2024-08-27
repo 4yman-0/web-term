@@ -1,5 +1,7 @@
 'use strict';
 
+import Shell from "./shell.js";
+
 const App = {
     init () {
         App.term = document.getElementById("term");
@@ -28,3 +30,5 @@ const App = {
         }
     }
 };
+
+export default App;
