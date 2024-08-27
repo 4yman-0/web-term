@@ -36,17 +36,32 @@ const Shell = {
         if (!text) return;
 
         const echoElem = document.createElement(pre ? "pre" : "p");
+
         echoElem.textContent = text;
         App.termOutput.appendChild(echoElem);
+
         return echoElem;
     },
     echoHTML (html, pre = false){
         if (!html) return;
 
         const echoElem = document.createElement(pre ? "pre" : "p");
+
         echoElem.innerHTML = html;
         App.termOutput.appendChild(echoElem);
+
         return echoElem;
+    },
+    echoMultiline (multilineText, pre){
+        // Split line breaks
+        const textArray = multilineText.trim().split("\n");
+
+        textArray.forEach((line) => {this.echo(line, pre)});
+    },
+    echoMultilineHTML (multilineHTML, pre){
+        const htmlArray = multilineHTML.trim().split("\n");
+
+        htmlArray.forEach((line) => {this.echoHTML(line, pre)});
     },
     exec (input){
         const [command, ...args] = input.trim().split(" ");
@@ -62,7 +77,6 @@ const Shell = {
         // Echo prompt to screen
         Shell.echoHTML(`${App.termCommand.innerHTML} ${input}`);
 
-        // If input is empty, do nothing
         if (!input) return;
 
         Shell.pushHist(input);
@@ -71,6 +85,7 @@ const Shell = {
 
         App.termPrompt.classList.add("hidden");
 
+        // Execute, if null is returned, throw error
         if (Shell.exec(input) === null) {
             Shell.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
