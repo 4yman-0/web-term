@@ -10,4 +10,4 @@ const cfg = new Config();
 const shell = new Shell(app, cfg, commands);
 
 // "Finally"
-shell.init();
+shell.start();

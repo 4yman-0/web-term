@@ -2,13 +2,30 @@
 
 const _$ = (id) => document.getElementById(id);
 
+
+let term,termOutput,termPrompt,termPS1,termInput;
+
+const initGlobalDOM = () => {
+    if (term !== null) return;
+
+    term =       _$("term");
+    termOutput = _$("term-output");
+    termPrompt = _$("term-prompt");
+    termPS1 =    _$("term-ps1");
+    termInput =  _$("term-input");
+}
+
 class App {
     constructor () {
-        this.term =         _$("term");
-        this.termOutput =   _$("term-output");
-        this.termPrompt =   _$("term-prompt");
-        this.termPS1 =      _$("term-ps1");
-        this.termInput =    _$("term-input");
+        if (term === null) {
+            initGlobalDOM();
+        }
+        // Set from global (module) vars
+        this.term =       term;
+        this.termOutput = termOutput;
+        this.termPrompt = termPrompt;
+        this.termPS1 =    termPS1;
+        this.termInput =  termInput;
     }
 
     init (){
@@ -28,7 +45,7 @@ class App {
         
         if (isTextSelected && evt.key.startsWith("Arrow")) {
             evt.preventDefault();
-            return;
+            return null;
         }
 
         switch (evt.key) {

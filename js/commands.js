@@ -1,8 +1,5 @@
 'use strict';
 
-import Shell from './shell.js';
-
-
 /**
   *    `Commands` is a `Map` where:
   *    - Keys are strings.
@@ -47,14 +44,18 @@ commands.set("config", ["Configure the terminal",
                 let getVal = shell.cfg.get(name);
                 if (getVal) {
                     shell.echo(getVal);
-                } else configNotFound(name);
+                } else {
+                    configNotFound(name);
+                }
                 break;
             case "set":
                 let setVal = shell.cfg.set(name, value);
 
                 if (setVal) {
                     shell.echo(`Configuration ${name} is now ${value}`);
-                } else configNotFound(name);
+                } else {
+                    configNotFound(name);
+                }
                 break;
             default:
 // Not sure how to deal with this

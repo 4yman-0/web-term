@@ -22,20 +22,29 @@ class Shell {
     cmds = undefined
 
     /**
-     * @param {App} app 
-     * @param {Config} config 
+     * @param {App} app
+     * @param {Config} config
      * @param {Map} commands
      */
     constructor (app, config, commands){
         this.app = app;
         this.cfg = config;
-        this.cmds = commands
+        this.cmds = commands;
+
+        this.handleInput = this.app.handleInput.bind(this);
     }
 
-    init (){
-        this.app.termInput.addEventListener("keydown", this.app.handleInput.bind(this));
-
+    start (){
+        this.app.termInput.addEventListener("keydown", this.handleInput);
         this.app.init();
+    }
+
+    stop (){
+        this.app.termInput.removeEventListener("keydown", this.handleInput);
+    }
+
+    handleInput (){
+        console.warn("Using `Shell`'s handleInput, should use `App`", this.app);
     }
 
     histUp (){
@@ -94,7 +103,6 @@ class Shell {
 		// Replace
 		input = input.replace("~", `/home/${this.cfg.username}`);
 
-
         const [command, ...args] = input.trim().split(" ");
 
         if (this.cmds.has(command)) {
@@ -127,4 +135,3 @@ class Shell {
 }
 
 export default Shell;
-
