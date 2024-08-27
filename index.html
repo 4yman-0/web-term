@@ -33,16 +33,18 @@
     <main id="app">
         <div id="term">
             <div id="term_output">
-                <pre>Please enable JavaScript</pre>
+                <pre>Welcome to <strong>WEB-TERM</strong></pre>
             </div>
             <p id="term_prompt">
-                <span class="green">user@web-term</span>:<span class="blue">~</span>$ 
-                <span id="term_command">ls</span><span class="blinker">█</span></p>
+                <span id="term_command">
+                    <span class="green">user@web-term</span>:<span class="blue">~</span>$ 
+                </span>
+                <input id="term_input"
+                 type="text"
+                 autocomplete="none"
+                 translate="no">
+            </p>
         </div>
-        <input id="term_input"
-         type="text"
-         autocomplete="none"
-         translate="no">
     </main>
 
     <script src="js/app.js"  defer></script>
