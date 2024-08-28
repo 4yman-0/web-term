@@ -1,6 +1,7 @@
 'use strict';
 
 import AppUI from "./appUI.js";
+import inputParser from "./inputParser.js";
 
 class Shell {
     hist = [""]
@@ -65,7 +66,7 @@ class Shell {
     }
 
     histUp (){
-        if (this.histIndex > 0) {
+        if (this.histIndex > 0){
             this.histIndex--;
             this.appUI.termInput.value = this.hist[this.histIndex];
 
@@ -74,7 +75,7 @@ class Shell {
     }
 
     histDown (){
-        if (this.histIndex < this.hist.length - 1) {
+        if (this.histIndex < this.hist.length - 1){
             this.histIndex++;
             this.appUI.termInput.value = this.hist[this.histIndex];
 
@@ -85,7 +86,7 @@ class Shell {
     pushHist (input){
         this.hist.pop();
         this.hist.push(input, "");
-        if (this.hist.length >= this.histMax) {
+        if (this.hist.length >= this.histMax){
             this.hist.shift();
         } else {
             this.histIndex++;
@@ -98,29 +99,29 @@ class Shell {
 		this.appUI.clear();
     }
 
-    echo (text, isPre){
-		this.appUI.echo(text, isPre);
+    echo (text, pre){
+		this.appUI.echo(text, pre);
     }
 
-    echoHTML (html, isPre){
-		this.appUI.echoHTML(html, isPre);
+    echoHTML (html, pre){
+		this.appUI.echoHTML(html, pre);
     }
 
-    echoMultiline (text, isPre){
-		this.appUI.echoMultiline(text, isPre);
+    echoMultiline (text, pre){
+		this.appUI.echoMultiline(text, pre);
     }
 
-    echoMultilineHTML (html, isPre){
-		this.appUI.echoMultilineHTML(html, isPre);
+    echoMultilineHTML (html, pre){
+		this.appUI.echoMultilineHTML(html, pre);
     }
 
     exec (input){
 		// Replace
-		input = input.replace("~", `/home/${this.cfg.username}`);
+		input = inputParser.parse(input);
 
-        const [command, ...args] = input.trim().split(" ");
+        const [command, ...args] = input;
 
-        if (this.cmds.has(command)) {
+        if (this.cmds.has(command)){
             // Execute command with args
             this.cmds.get(command)[1]([this, ...args]);
         } else return null;
@@ -132,7 +133,7 @@ class Shell {
 
         if (!input) return;
 
-        if (this.histOn) {
+        if (this.histOn){
             this.pushHist(input);
         }
 
@@ -141,7 +142,7 @@ class Shell {
         this.appUI.termPrompt.classList.add("hidden");
 
         // Execute, if null is returned, throw error
-        if (this.exec(input) === null) {
+        if (this.exec(input) === null){
             this.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 

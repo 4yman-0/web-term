@@ -34,7 +34,7 @@ commands.set("config", ["Configure the terminal",
 
         let [shell, command, name = "", value = ""] = args;
 
-        switch (command) {
+        switch (command){
             case "list":
                 shell.echoMultiline(
                     "Valid configurations:\n" + shell.cfg.validConfig.join("\n")
@@ -42,7 +42,7 @@ commands.set("config", ["Configure the terminal",
                 break;
             case "get":
                 let getVal = shell.cfg.get(name);
-                if (getVal) {
+                if (getVal){
                     shell.echo(getVal);
                 } else {
                     configNotFound(name);
@@ -51,7 +51,7 @@ commands.set("config", ["Configure the terminal",
             case "set":
                 let setVal = shell.cfg.set(name, value);
 
-                if (setVal) {
+                if (setVal){
                     shell.echo(`Configuration ${name} is now ${value}`);
                 } else {
                     configNotFound(name);
@@ -89,7 +89,7 @@ commands.set("exit", ["Exit the terminal",
     (args) => {
         const [shell, command] = args;
 
-        switch (command) {
+        switch (command){
             case "restart":
                 location.reload();
                 break;
@@ -114,7 +114,7 @@ commands.set("hist", ["Manipulate terminal history",
     (args) => {
         let [shell, command] = args;
 
-        switch (command) {
+        switch (command){
             case "list":
                 // List terminal history
                 shell.hist.forEach((item) => { shell.echo(item) });
@@ -148,13 +148,13 @@ commands.set("help", ["Show descriptions",
     (args) => {
         const [shell, command] = args;
 
-        if (command == undefined) {
+        if (command == undefined){
             commands.forEach((command, name) => {
                 shell.echo(`${ name }\t-\t${ command[0] }`, true);
             });
             return;
         }
-        if (commands.has(command)) {
+        if (commands.has(command)){
             shell.echo(commands.get(command)[0]);
         } else {
             shell.echoHTML(`<span class="red">Command ${command} not found</span>`);

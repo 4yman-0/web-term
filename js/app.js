@@ -14,8 +14,8 @@ const _initGlobalDOM = () => {
 }
 
 class App {
-    constructor () {
-        if (!term) {
+    constructor (){
+        if (!term){
             _initGlobalDOM();
         }
         // Set from global (module) vars
@@ -40,12 +40,12 @@ class App {
         || this.termInput.selectionStart
             !== this.termInput.selectionEnd;
 
-        if (isTextSelected && evt.key.startsWith("Arrow")) {
+        if (isTextSelected && evt.key.startsWith("Arrow")){
             evt.preventDefault();
             return null;
         }
 
-        switch (evt.key) {
+        switch (evt.key){
             case "Enter":
 				return 1;
             case "ArrowUp":
