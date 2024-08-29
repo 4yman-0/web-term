@@ -1,18 +1,18 @@
 'use strict';
 
-import AppUI from "./appUI.js";
-import inputParser from "./inputParser.js";
+import App from './app.js';
+import parseInput from './inputParser.js';
 
 class Shell {
-    hist = [""]
+    hist = ['']
     histIndex = 0
     histMax = 200
     histOn = true
 
     /**
-     * @type {AppUI}
+     * @type {App}
      */
-    appUI = {}
+    app = {}
 
     /**
      * @type {Config}
@@ -25,12 +25,11 @@ class Shell {
     cmds = undefined
 
     /**
-     * @param {AppUI} appUI
      * @param {Config} config
      * @param {Map} commands
      */
-    constructor (appUI, config, commands){
-        this.appUI = appUI;
+    constructor (config, commands){
+        this.app = App.getApp();
         this.cfg = config;
         this.cmds = commands;
 
@@ -38,21 +37,21 @@ class Shell {
     }
 
     start (){
-        this.appUI.termInput.addEventListener("keydown", this.handleInput);
-        this.appUI.start();
+        this.app.termInput.addEventListener('keydown', this.handleInput);
+        this.app.start();
     }
 
     stop (){
-        this.appUI.termInput.removeEventListener("keydown", this.handleInput);
+        this.app.termInput.removeEventListener('keydown', this.handleInput);
     }
 
     handleInput (evt){
-		const action = this.appUI.handleInput(evt);
+		const action = this.app.handleInput(evt);
 
 		switch (action){
 			case 1:
-				this.execUserInput(this.appUI.termInput.value);
-				this.appUI.termInput.value = "";
+				this.execUserInput(this.app.termInput.value);
+				this.app.termInput.value = '';
 				break;
 			case 2:
 				this.histUp();
@@ -68,24 +67,24 @@ class Shell {
     histUp (){
         if (this.histIndex > 0){
             this.histIndex--;
-            this.appUI.termInput.value = this.hist[this.histIndex];
+            this.app.termInput.value = this.hist[this.histIndex];
 
-            this.appUI.selectInputEnd();
+            this.app.selectInputEnd();
         }
     }
 
     histDown (){
         if (this.histIndex < this.hist.length - 1){
             this.histIndex++;
-            this.appUI.termInput.value = this.hist[this.histIndex];
+            this.app.termInput.value = this.hist[this.histIndex];
 
-            this.appUI.selectInputEnd();
+            this.app.selectInputEnd();
         }
     }
 
     pushHist (input){
         this.hist.pop();
-        this.hist.push(input, "");
+        this.hist.push(input, '');
         if (this.hist.length >= this.histMax){
             this.hist.shift();
         } else {
@@ -96,28 +95,27 @@ class Shell {
 
 	// Wrap composition
     clear (){
-		this.appUI.clear();
+		this.app.clear();
     }
 
     echo (text, pre){
-		this.appUI.echo(text, pre);
+		this.app.echo(text, pre);
     }
 
     echoHTML (html, pre){
-		this.appUI.echoHTML(html, pre);
+		this.app.echoHTML(html, pre);
     }
 
     echoMultiline (text, pre){
-		this.appUI.echoMultiline(text, pre);
+		this.app.echoMultiline(text, pre);
     }
 
     echoMultilineHTML (html, pre){
-		this.appUI.echoMultilineHTML(html, pre);
+		this.app.echoMultilineHTML(html, pre);
     }
 
     exec (input){
-		// Replace
-		input = inputParser.parse(input);
+		input = parseInput(input);
 
         let [command, ...args] = input;
 
@@ -129,7 +127,7 @@ class Shell {
 
     execUserInput (input){
         // Echo prompt to screen
-        this.echoHTML(`${this.appUI.termPS1.innerHTML} ${input}`);
+        this.echoHTML(`${this.app.termPS1.innerHTML} ${input}`);
 
         if (!input) return;
 
@@ -137,16 +135,16 @@ class Shell {
             this.pushHist(input);
         }
 
-        this.appUI.termPrompt.classList.add("hidden");
+        this.app.termPrompt.classList.add('hidden');
 
         // Execute, if null is returned, throw error
         if (this.exec(input) === null){
-			const command = input.split(" ")[0];
+			const command = input.split(' ')[0];
             this.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
-        this.appUI.selectInputEnd();
-        this.appUI.termPrompt.classList.remove("hidden");
+        this.app.selectInputEnd();
+        this.app.termPrompt.classList.remove('hidden');
     }
 }
 

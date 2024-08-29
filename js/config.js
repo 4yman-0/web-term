@@ -4,14 +4,14 @@ import Shell from './shell.js';
 
 class Config {
 
-    username = "user"
-    hostname = "web-term"
-    workingDir = "~"
+    username = 'user'
+    hostname = 'web-term'
+    workingDir = '~'
 
     validConfig = [
-        "username",
-        "hostname",
-        "workdir"
+        'username',
+        'hostname',
+        'workdir'
     ]
 
     get (name){
@@ -20,9 +20,9 @@ class Config {
 
     set (name, value){
         const configRegex = new Map ([
-            ["username", /^[a-z][-a-z0-9]*$/],
-            ["hostname", /^([a-zA-Z0-9]{1,63}.)+$/],
-            ["workdir", /^[/~]\0+$/],
+            ['username', /^[a-z][-a-z0-9]*$/],
+            ['hostname', /^([a-zA-Z0-9]{1,63}.)+$/],
+            ['workdir', /^[/~]\0+$/],
         ]);
 
         if (this.validConfig.includes(name)
@@ -36,7 +36,7 @@ class Config {
      * @this {Shell}
      */
     updateConfig (){
-        this.appUI.termPS1.innerHTML
+        this.app.termPS1.innerHTML
          = `<span class="green">${this.cfg.username}@${this.cfg.hostname}</span>`
          + `:<span class="blue">${this.cfg.workingDir}</span>$ `;
     }

@@ -7,10 +7,10 @@
   *    the description and the function respectively.
   *
   * ```javascript
-  * Commands.set("example", ["example command",
+  * Commands.set('example', ['example command',
   *     (shell, args) => {
-  *         echo("example!");
-  *         echo(shell, args);
+  *         shell.echo('example!');
+  *         shell.echo(args.join(', '));
   *     }
   * ]);
   * ```
@@ -19,27 +19,27 @@
 const commands = new Map();
 
 
-commands.set("clear", ["Clear the screen",
+commands.set('clear', ['Clear the screen',
     (shell) => {
         shell.clear();
     }
 ]);
 
-commands.set("config", ["Configure the terminal",
+commands.set('config', ['Configure the terminal',
     (shell, args) => {
         const configNotFound = (name) => {
             shell.echoHTML(`<span class="red"> Configuration ${name} not found </span>`);
         }
 
-        let [command, name = "", value = ""] = args;
+        let [command, name = '', value = ''] = args;
 
         switch (command){
-            case "list":
+            case 'list':
                 shell.echoMultiline(
-                    "Valid configurations:\n" + shell.cfg.validConfig.join("\n")
+                    'Valid configurations:\n' + shell.cfg.validConfig.join('\n')
                 );
                 break;
-            case "get":
+            case 'get':
                 let getVal = shell.cfg.get(name);
                 if (getVal){
                     shell.echo(getVal);
@@ -47,7 +47,7 @@ commands.set("config", ["Configure the terminal",
                     configNotFound(name);
                 }
                 break;
-            case "set":
+            case 'set':
                 let setVal = shell.cfg.set(name, value);
 
                 if (setVal){
@@ -67,7 +67,7 @@ COMMAND:
   set
 NAME:
 ${
-    "  " + shell.cfg.validConfig.join("\n  ")
+    '  ' + shell.cfg.validConfig.join('\n  ')
 }
 `, true);
                 break;
@@ -77,21 +77,21 @@ ${
     }
 ]);
 
-commands.set("echo", ["Output text",
+commands.set('echo', ['Output text',
     (shell, message) => {
-        shell.echo(message.join(" "));
+        shell.echo(message.join(' '));
     }
 ]);
 
-commands.set("exit", ["Exit the terminal",
+commands.set('exit', ['Exit the terminal',
     (shell, args) => {
         const command = args[0];
 
         switch (command){
-            case "restart":
+            case 'restart':
                 location.reload();
                 break;
-            case "shutdown":
+            case 'shutdown':
                 close();
                 break;
             default:
@@ -108,23 +108,23 @@ COMMAND:
 ]);
 
 
-commands.set("hist", ["Manipulate terminal history",
+commands.set('hist', ['Manipulate terminal history',
     (shell, args) => {
         let command = args[0];
 
         switch (command){
-            case "list":
+            case 'list':
                 // List terminal history
                 shell.hist.forEach((item) => { shell.echo(item) });
                 break;
-            case "clear":
-                shell.hist = [""];
+            case 'clear':
+                shell.hist = [''];
                 shell.histIndex = 0;
                 break;
-            case "on":
+            case 'on':
                 shell.histOn=true;
                 break;
-            case "off":
+            case 'off':
                 shell.histOn=false;
                 break;
             default:
@@ -142,7 +142,7 @@ COMMAND:
     }
 ]);
 
-commands.set("help", ["Show descriptions",
+commands.set('help', ['Show descriptions',
     (shell, args) => {
         const command = args[0];
 

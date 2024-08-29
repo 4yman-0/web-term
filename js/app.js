@@ -2,33 +2,76 @@
 
 const _$ = (id) => document.getElementById(id);
 
-
-let term,termOutput,termPrompt,termPS1,termInput;
-
-const _initGlobalDOM = () => {
-    term =       _$("term");
-    termOutput = _$("term-output");
-    termPrompt = _$("term-prompt");
-    termPS1 =    _$("term-ps1");
-    termInput =  _$("term-input");
-}
+const _createEchoElem = (pre) =>
+	document.createElement(pre ? 'pre' : 'p');
 
 class App {
+	static app;
+
+	static getApp (){
+		if (!this.app)
+			this.app = new App();
+
+		return this.app;
+	}
+
     constructor (){
-        if (!term){
-            _initGlobalDOM();
-        }
-        // Set from global (module) vars
-        this.term       = term;
-        this.termOutput = termOutput;
-        this.termPrompt = termPrompt;
-        this.termPS1    = termPS1;
-        this.termInput  = termInput;
+		this.term =       _$('term');
+		this.termOutput = _$('term-output');
+		this.termPrompt = _$('term-prompt');
+		this.termPS1 =    _$('term-ps1');
+		this.termInput =  _$('term-input');
     }
 
     start (){
         // Reset input value to prevent refill
-        this.termInput.value = "";
+        this.termInput.value = '';
+    }
+
+	clear (){
+        this.termOutput.innerHTML = '';
+    }
+
+    echo (text = '\n', pre = false){
+		const echoElem = _createEchoElem(pre);
+		echoElem.textContent = text;
+		this.termOutput.appendChild(echoElem);
+		return echoElem;
+    }
+
+    echoHTML (html = '', pre = false){
+		const echoElem = _createEchoElem(pre);
+		echoElem.innerHTML = html;
+		this.termOutput.appendChild(echoElem);
+		return echoElem;
+    }
+
+    echoMultiline (text, pre){
+        const lines = text.split('\n');
+		const fragment = document.createDocumentFragment();
+
+		for (const line of lines){
+			const echoElem = _createEchoElem(pre);
+			echoElem.textContent = line;
+
+			fragment.appendChild(echoElem);
+		}
+
+		this.termOutput.appendChild(fragment);
+    }
+
+    echoMultilineHTML (html, pre){
+        const lines = html.split('\n');
+		const fragment = document.createDocumentFragment();
+
+		for (const line of lines){
+			const echoElem = _createEchoElem(pre);
+			echoElem.innerHTML = line;
+
+			fragment.appendChild(echoElem);
+		}
+
+		this.termOutput.appendChild(fragment);
     }
 
     /**
@@ -40,17 +83,17 @@ class App {
         || this.termInput.selectionStart
             !== this.termInput.selectionEnd;
 
-        if (isTextSelected && evt.key.startsWith("Arrow")){
+        if (isTextSelected && evt.key.startsWith('Arrow')){
             evt.preventDefault();
             return null;
         }
 
         switch (evt.key){
-            case "Enter":
+            case 'Enter':
 				return 1;
-            case "ArrowUp":
+            case 'ArrowUp':
 				return 2;
-            case "ArrowDown":
+            case 'ArrowDown':
 				return 3;
             default:
                 break;
