@@ -8,9 +8,9 @@
   *
   * ```javascript
   * Commands.set("example", ["example command",
-  *     (args) => {
+  *     (shell, args) => {
   *         echo("example!");
-  *         echo(args);
+  *         echo(shell, args);
   *     }
   * ]);
   * ```
@@ -20,19 +20,18 @@ const commands = new Map();
 
 
 commands.set("clear", ["Clear the screen",
-    (args) => {
-        const shell = args[0];
+    (shell) => {
         shell.clear();
     }
 ]);
 
 commands.set("config", ["Configure the terminal",
-    (args) => {
+    (shell, args) => {
         const configNotFound = (name) => {
             shell.echoHTML(`<span class="red"> Configuration ${name} not found </span>`);
         }
 
-        let [shell, command, name = "", value = ""] = args;
+        let [command, name = "", value = ""] = args;
 
         switch (command){
             case "list":
@@ -78,16 +77,15 @@ ${
     }
 ]);
 
-commands.set("echo", ["Output text (no quotes)",
-    (args) => {
-        const [shell, ...message] = args;
+commands.set("echo", ["Output text",
+    (shell, message) => {
         shell.echo(message.join(" "));
     }
 ]);
 
 commands.set("exit", ["Exit the terminal",
-    (args) => {
-        const [shell, command] = args;
+    (shell, args) => {
+        const command = args[0];
 
         switch (command){
             case "restart":
@@ -111,8 +109,8 @@ COMMAND:
 
 
 commands.set("hist", ["Manipulate terminal history",
-    (args) => {
-        let [shell, command] = args;
+    (shell, args) => {
+        let command = args[0];
 
         switch (command){
             case "list":
@@ -145,8 +143,8 @@ COMMAND:
 ]);
 
 commands.set("help", ["Show descriptions",
-    (args) => {
-        const [shell, command] = args;
+    (shell, args) => {
+        const command = args[0];
 
         if (command == undefined){
             commands.forEach((command, name) => {

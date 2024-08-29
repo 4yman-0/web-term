@@ -36,7 +36,7 @@ class Config {
      * @this {Shell}
      */
     updateConfig (){
-        this.app.termPS1.innerHTML
+        this.appUI.termPS1.innerHTML
          = `<span class="green">${this.cfg.username}@${this.cfg.hostname}</span>`
          + `:<span class="blue">${this.cfg.workingDir}</span>$ `;
     }

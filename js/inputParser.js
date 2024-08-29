@@ -1,12 +1,18 @@
 const inputParser = {
-	parseQuotes (input){
-    	let result = [];
-    	let buffer = '';
-    	let inSingle = false;
-    	let inDouble = false;
+	parseQuotes(input) {
+    	let result = [],
+    		buffer = '',
+    		inSingle = false,
+    		inDouble = false,
+    		escape = false;
 
     	for (let char of input) {
-    	    if (char === "'" && !inDouble) {
+    	    if (escape) {
+    	        buffer += char;
+    	        escape = false;
+    	    } else if (char === '\\') {
+    	        escape = true;
+    	    } else if (char === "'" && !inDouble) {
     	        if (inSingle) {
     	            result.push(buffer);
     	            buffer = '';
@@ -18,17 +24,24 @@ const inputParser = {
     	            buffer = '';
     	        }
     	        inDouble = !inDouble;
+    	    } else if (char === ' ' && !inSingle && !inDouble) {
+    	        if (buffer.trim()) {
+    	            result.push(buffer.trim());
+    	        }
+    	        buffer = '';
     	    } else {
     	        buffer += char;
     	    }
     	}
 
-    	if (buffer) result.push(buffer);
+    	// Add the last buffer if it's not empty
+    	if (buffer.trim())
+    	    result.push(buffer);
 
     	return result;
 	},
 
-	parse (input){
+	parse (input = ""){
 		return inputParser.parseQuotes(input);
 	}
 };

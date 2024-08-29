@@ -119,11 +119,11 @@ class Shell {
 		// Replace
 		input = inputParser.parse(input);
 
-        const [command, ...args] = input;
+        let [command, ...args] = input;
 
         if (this.cmds.has(command)){
             // Execute command with args
-            this.cmds.get(command)[1]([this, ...args]);
+            this.cmds.get(command)[1](this, args);
         } else return null;
     }
 
@@ -137,12 +137,11 @@ class Shell {
             this.pushHist(input);
         }
 
-        const command = input.split(" ")[0];
-
         this.appUI.termPrompt.classList.add("hidden");
 
         // Execute, if null is returned, throw error
         if (this.exec(input) === null){
+			const command = input.split(" ")[0];
             this.echoHTML(`<span class="red">${command}: command not found</span>`);
         }
 
