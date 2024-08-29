@@ -1,50 +1,49 @@
 'use strict';
 
+// Basically JQuery
 const _$ = (id) => document.getElementById(id);
 
 const _createEchoElem = (pre) =>
 	document.createElement(pre ? 'pre' : 'p');
 
-class App {
-	static app;
+/**
+ * @type {App}
+ */
 
-	static getApp (){
-		if (!this.app)
-			this.app = new App();
-
-		return this.app;
-	}
-
-    constructor (){
+const APP = {
+    init (){
 		this.term =       _$('term');
 		this.termOutput = _$('term-output');
 		this.termPrompt = _$('term-prompt');
 		this.termPS1 =    _$('term-ps1');
 		this.termInput =  _$('term-input');
-    }
+
+
+		this.initSucess = this.term && this.termOutput;
+    },
 
     start (){
         // Reset input value to prevent refill
         this.termInput.value = '';
-    }
+    },
 
 	clear (){
         this.termOutput.innerHTML = '';
-    }
+    },
 
     echo (text = '\n', pre = false){
 		const echoElem = _createEchoElem(pre);
 		echoElem.textContent = text;
 		this.termOutput.appendChild(echoElem);
 		return echoElem;
-    }
+    },
 
     echoHTML (html = '', pre = false){
 		const echoElem = _createEchoElem(pre);
 		echoElem.innerHTML = html;
 		this.termOutput.appendChild(echoElem);
 		return echoElem;
-    }
+    },
 
     echoMultiline (text, pre){
         const lines = text.split('\n');
@@ -58,7 +57,7 @@ class App {
 		}
 
 		this.termOutput.appendChild(fragment);
-    }
+    },
 
     echoMultilineHTML (html, pre){
         const lines = html.split('\n');
@@ -72,7 +71,7 @@ class App {
 		}
 
 		this.termOutput.appendChild(fragment);
-    }
+    },
 
     /**
      * @param {KeyboardEvent} evt
@@ -98,7 +97,7 @@ class App {
             default:
                 break;
         }
-    }
+    },
 
     selectInputEnd (){
         // move I-beam to end of input
@@ -108,6 +107,13 @@ class App {
             inputLength
         );
     }
+};
+
+const getApp = () => {
+	if (!APP.initSucess)
+		APP.init();
+
+	return APP;
 }
 
-export default App;
+export default getApp;

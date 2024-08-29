@@ -1,7 +1,10 @@
 'use strict';
 
-import App from './app.js';
+import getApp from './app.js';
 import parseInput from './inputParser.js';
+
+const _encodeHTML = (str) =>
+	str.replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';')
 
 class Shell {
     hist = ['']
@@ -29,7 +32,7 @@ class Shell {
      * @param {Map} commands
      */
     constructor (config, commands){
-        this.app = App.getApp();
+        this.app = getApp();
         this.cfg = config;
         this.cmds = commands;
 
@@ -127,21 +130,25 @@ class Shell {
 
     execUserInput (input){
         // Echo prompt to screen
-        this.echoHTML(`${this.app.termPS1.innerHTML} ${input}`);
+        this.echoHTML(`${this.app.termPS1.innerHTML} ${_encodeHTML(input)}`);
 
-        if (!input) return;
+        if (!input)
+			return;
 
-        if (this.histOn){
+        if (this.histOn)
             this.pushHist(input);
-        }
 
         this.app.termPrompt.classList.add('hidden');
 
-        // Execute, if null is returned, throw error
-        if (this.exec(input) === null){
-			const command = input.split(' ')[0];
-            this.echoHTML(`<span class="red">${command}: command not found</span>`);
-        }
+		const instructions = input.split(';');
+
+		for (const instruction of instructions) {
+        	// Execute, if null is returned, throw error
+        	if (this.exec(instruction) === null){
+				const name = instruction.split(' ')[0];
+        	    this.echoHTML(`<span class="red">${_encodeHTML(name)}: command not found</span>`);
+        	}
+		}
 
         this.app.selectInputEnd();
         this.app.termPrompt.classList.remove('hidden');

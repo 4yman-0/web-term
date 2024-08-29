@@ -1,4 +1,4 @@
-function parseQuotes(input) {
+const parseQuotes = (input) => {
 	let result = [],
 		buffer = '',
 		inSingle = false,
@@ -38,9 +38,9 @@ function parseQuotes(input) {
 		result.push(buffer);
 
 	return result;
-}
+};
 
-function parseInput (input = ''){
+const parseInput = (input = '') => {
 	return parseQuotes(input);
 }
 

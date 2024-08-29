@@ -16,16 +16,16 @@
   * ```
   * @type {Map<String,Array>}
   */
-const commands = new Map();
+const cmds = new Map();
 
 
-commands.set('clear', ['Clear the screen',
+cmds.set('clear', ['Clear the screen',
     (shell) => {
         shell.clear();
     }
 ]);
 
-commands.set('config', ['Configure the terminal',
+cmds.set('config', ['Configure the terminal',
     (shell, args) => {
         const configNotFound = (name) => {
             shell.echoHTML(`<span class="red"> Configuration ${name} not found </span>`);
@@ -77,13 +77,13 @@ ${
     }
 ]);
 
-commands.set('echo', ['Output text',
+cmds.set('echo', ['Output text',
     (shell, message) => {
         shell.echo(message.join(' '));
     }
 ]);
 
-commands.set('exit', ['Exit the terminal',
+cmds.set('exit', ['Exit the terminal',
     (shell, args) => {
         const command = args[0];
 
@@ -108,7 +108,7 @@ COMMAND:
 ]);
 
 
-commands.set('hist', ['Manipulate terminal history',
+cmds.set('hist', ['Manipulate terminal history',
     (shell, args) => {
         let command = args[0];
 
@@ -142,22 +142,23 @@ COMMAND:
     }
 ]);
 
-commands.set('help', ['Show descriptions',
+cmds.set('help', ['Show descriptions',
     (shell, args) => {
         const command = args[0];
 
         if (command == undefined){
-            commands.forEach((command, name) => {
-                shell.echo(`${ name }\t-\t${ command[0] }`, true);
+			shell.echo('Commands:');
+            cmds.forEach((command, name) => {
+                shell.echo(`\t${ name }\t-\t${ command[0] }`, true);
             });
             return;
         }
-        if (commands.has(command)){
-            shell.echo(commands.get(command)[0]);
+        if (cmds.has(command)){
+            shell.echo(cmds.get(command)[0]);
         } else {
             shell.echoHTML(`<span class="red">Command ${command} not found</span>`);
         }
     }
 ]);
 
-export default commands;
+export default cmds;
