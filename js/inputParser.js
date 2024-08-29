@@ -5,12 +5,17 @@ const parseQuotes = (input) => {
 		inDouble = false,
 		escape = false;
 
-	for (let char of input) {
+	for (const char of input) {
 		if (escape) {
 			buffer += char;
 			escape = false;
 		} else if (char === '\\') {
 			escape = true;
+		} else if (char === ' ' && !inSingle && !inDouble) {
+			if (buffer.trim()) {
+				result.push(buffer);
+			}
+			buffer = '';
 		} else if (char === "'" && !inDouble) {
 			if (inSingle) {
 				result.push(buffer);
@@ -23,11 +28,6 @@ const parseQuotes = (input) => {
 				buffer = '';
 			}
 			inDouble = !inDouble;
-		} else if (char === ' ' && !inSingle && !inDouble) {
-			if (buffer.trim()) {
-				result.push(buffer.trim());
-			}
-			buffer = '';
 		} else {
 			buffer += char;
 		}
@@ -40,8 +40,17 @@ const parseQuotes = (input) => {
 	return result;
 };
 
-const parseInput = (input = '') => {
-	return parseQuotes(input);
+const parseInput = (input) => {
+	let result = [];
+
+	if (/"|'/g.test(input))
+		result = parseQuotes(input);
+
+
+	if (result.length > 0)
+		return result;
+	else
+		return input.split(' ');
 }
 
 export default parseInput;

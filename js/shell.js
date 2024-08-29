@@ -140,7 +140,9 @@ class Shell {
 
         this.app.termPrompt.classList.add('hidden');
 
-		const instructions = input.split(';');
+		const instructions =
+			input.split(';')
+		 		 .filter((str) => str.trim());
 
 		for (const instruction of instructions) {
         	// Execute, if null is returned, throw error
