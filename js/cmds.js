@@ -73,7 +73,7 @@ ${
                 break;
         }
 
-        shell.cfg.updateConfig.call(shell);
+        shell.cfg.update.call(shell);
     }
 ]);
 

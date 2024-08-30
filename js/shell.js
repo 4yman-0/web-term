@@ -102,19 +102,19 @@ class Shell {
     }
 
     echo (text, pre){
-		this.app.echo(text, pre);
+		return this.app.echo(text, pre);
     }
 
     echoHTML (html, pre){
-		this.app.echoHTML(html, pre);
+		return this.app.echoHTML(html, pre);
     }
 
     echoMultiline (text, pre){
-		this.app.echoMultiline(text, pre);
+		return this.app.echoMultiline(text, pre);
     }
 
     echoMultilineHTML (html, pre){
-		this.app.echoMultilineHTML(html, pre);
+		return this.app.echoMultilineHTML(html, pre);
     }
 
     exec (input){
@@ -144,7 +144,7 @@ class Shell {
 			input.split(';')
 		 		 .filter((str) => str.trim());
 
-		for (const instruction of instructions) {
+		for (const instruction of instructions){
         	// Execute, if null is returned, throw error
         	if (this.exec(instruction) === null){
 				const name = instruction.split(' ')[0];

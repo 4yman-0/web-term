@@ -1,5 +1,21 @@
 /* CSS */
 
+body {
+	background: #000;
+	color: #fff;
+	font-family: 'Roboto Mono', monospace;
+	font-size: 1rem;
+}
+
+input {
+	border: none;
+	outline: none;
+	background: none;
+	color: #fff;
+	font-family: 'Roboto Mono', monospace;
+	font-size: 1rem;
+}
+
 a {
     color: #3FF;
 }
