@@ -1,7 +1,7 @@
 'use strict';
 
 /**
-  *    `Commands` is a `Map` where:
+  *    `cmds` is a `Map` where:
   *    - Keys are strings.
   *    - Values are arrays of length 2 with
   *    the description and the function respectively.
@@ -68,8 +68,7 @@ COMMAND:
 NAME:
 ${
     '  ' + shell.cfg.validConfig.join('\n  ')
-}
-`, true);
+}\n`, true);
                 break;
         }
 
@@ -132,10 +131,10 @@ shell.echoMultiline(`
 Usage: hist COMMAND
 
 COMMAND:
-  list        show history
-  clear       remove all history items
-  on          enable history
-  off         disable history
+  list   show history
+  clear  remove all history items
+  on     enable history
+  off    disable history
 `, true);
                 break;
         }
@@ -147,16 +146,15 @@ cmds.set('help', ['Show descriptions',
         const command = args[0];
 
         if (command == undefined){
-			shell.echo('Commands:');
             cmds.forEach((command, name) => {
-                shell.echo(`\t${ name }\t-\t${ command[0] }`, true);
+                shell.echo(`\t${ name }\t- ${ command[0] }`, true);
             });
             return;
         }
         if (cmds.has(command)){
             shell.echo(cmds.get(command)[0]);
         } else {
-            shell.echoHTML(`<span class="red">Command ${command} not found</span>`);
+            shell.echoHTML(`<span class="red">command ${command} not found</span>`);
         }
     }
 ]);
