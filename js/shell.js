@@ -36,12 +36,12 @@ class Shell {
         this.cfg = config;
         this.cmds = commands;
 
+        this.app.start();
 		this.handleInput = this.handleInput.bind(this);
     }
 
     start (){
         this.app.termInput.addEventListener('keydown', this.handleInput);
-        this.app.start();
     }
 
     stop (){
@@ -135,7 +135,7 @@ class Shell {
         if (!input)
 			return;
 
-        if (this.histOn)
+        if (this.cfg.hist === 'true')
             this.pushHist(input);
 
         this.app.termPrompt.classList.add('hidden');

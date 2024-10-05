@@ -45,7 +45,6 @@ const parseInput = (input) => {
 	if (/"|'/g.test(input))
 		result = parseQuotes(input);
 
-
 	if (result.length > 0)
 		return result;
 	else

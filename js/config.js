@@ -6,10 +6,12 @@ class Config {
 
     username = 'user'
     hostname = 'web-term'
+	hist = 'true'
     workingDir = '~'
 
     validConfig = [
         'username',
+        'hist',
         'hostname',
         'workdir'
     ]
@@ -22,6 +24,7 @@ class Config {
         const configRegex = new Map ([
             ['username', /^[a-z][-a-z0-9]*$/],
             ['hostname', /^([a-zA-Z0-9]{1,63}.)+$/],
+            ['hist', /^(true|false)$/],
             ['workdir', /^[/~]\0+$/],
         ]);
 
@@ -32,13 +35,10 @@ class Config {
         } else return null;
     }
 
-    /**
-     * @this {Shell}
-     */
-    update (){
-        this.app.termPS1.innerHTML
-         = `<span class="green">${this.cfg.username}@${this.cfg.hostname}</span>`
-         + `:<span class="blue">${this.cfg.workingDir}</span>$ `;
+    update (termPS1){
+        termPS1.innerHTML
+         = `<span class="green">${this.username}@${this.hostname}</span>`
+         + `:<span class="blue">${this.workingDir}</span>$ `;
     }
 }
 
